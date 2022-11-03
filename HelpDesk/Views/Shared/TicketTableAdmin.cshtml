@@ -1,0 +1,174 @@
+﻿@{
+    Layout = null;
+    WebGrid webGrid = new WebGrid(source: ViewBag.Data, canPage: true, canSort: false);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+        .Grid {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+        }
+            .Grid th {
+                background-color: #F7F7F7;
+                font-weight: bold;
+            }
+            .Grid th, .Grid td {
+                padding: 5px;
+                width: 150px;
+                border: 1px solid #ccc;
+            }
+            .Grid, .Grid table td {
+                border: 0px solid #ccc;
+            }
+                .Grid th a, .Grid th a:visited {
+                    color: #333;
+                }
+    </style>
+</head>
+<body>
+    @webGrid.GetHtml(
+        htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+        columns: webGrid.Columns(
+                 webGrid.Column(header: "ID", format: @<span class="label">@item.ID</span>, style: "ID"),webGrid.Column(header: "Nama", format: @<span>
+        <span class="label">@item.Nama</span>
+        <input class="text" type="text" value="@item.Nama" style="display:none" />
+        </span>, style: "Nama"), webGrid.Column(header: "Email", format: @<span>
+        <span class="label">@item.Email</span>
+        <input class="text" type="text" value="@item.Email" style="display:none" />
+        </span>, style: "Email"),webGrid.Column(header: "Priority", format: @<span>
+        <span class="label">@item.Priority</span>
+        <input class="text" type="text" value="@item.Priority" style="display:none" />
+        </span>, style: "Priority"), webGrid.Column(header: "Subject", format: @<span>
+        <span class="label">@item.Subject</span>
+        <input class="text" type="text" value="@item.Subject" style="display:none" />
+        </span>, style: "Subject"), webGrid.Column(header: "Message", format: @<span>
+        <span class="label">@item.Message</span>
+        <input class="text" type="text" value="@item.Message" style="display:none" />
+        </span>, style: "Message"), webGrid.Column(header: "Status", format: @<span>
+        <span class="label">@item.Status</span>
+        <input class="text" type="text" value="@item.Status" style="display:none" />
+        </span>, style: "Status"), webGrid.Column(header: "Subject", format: @<span>
+        <span class="label"></span>
+        <select name="plan" id="plan">
+            <option value="free">Free</option>
+            <option value="@item.Subject" selected>@item.Subject</option>
+            <option value="professional">Professional</option>
+            <option value="corporate">Corporate</option>
+        </select>
+        </span>, style: "Subject"), webGrid.Column(header: "PIC", format: @<span>
+        <span class="label">@item.PIC</span>
+        <input class="text" type="text" value="@item.PIC" style="display:none" />
+        </span>, style: "PIC"), webGrid.Column(format:@<span class="link">
+        <a class="Edit" href="javascript:;">Edit</a>
+        <a class="Delete" href="javascript:;">Delete</a>
+        <a class="Update" href="javascript:;" style="display:none">Update</a>
+        <a class="Cancel" href="javascript:;" style="display:none">Cancel</a>
+        </span>)))
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript">
+        //Edit event handler.
+        $("body").on("click", "#WebGrid TBODY .Edit", function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".label").hide();
+                }
+            });
+            row.find(".Update").show();
+            row.find(".Cancel").show();
+            $(this).hide();
+        });
+        //Update event handler.
+        $("body").on("click", "#WebGrid TBODY .Update", function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".label");
+                    var input = $(this).find(".text");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".Edit").show();
+            row.find(".Cancel").hide();
+            $(this).hide();
+            var Ticket = {};
+            Ticket.ID = row.find(".ID").find(".label").html();
+            Ticket.Nama = row.find(".Nama").find(".label").html();
+            Ticket.Email = row.find(".Email").find(".label").html();
+            Ticket.Priority = row.find(".Priority").find(".label").html();
+            Ticket.Subject = row.find(".Subject").find(".label").html();
+            Ticket.Message = row.find(".Message").find(".label").html();
+            Ticket.PIC = row.find(".PIC").find(".label").html();
+            $.ajax({
+                type: "POST",
+                url: "/Form/UpdateDataForm",
+                data: JSON.stringify(Ticket),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            });
+        });
+        //Cancel event handler.
+        $("body").on("click", "#WebGrid TBODY .Cancel", function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".label");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".Edit").show();
+            row.find(".Update").hide();
+            $(this).hide();
+        });
+        //Delete event handler.
+        $("body").on("click", "#WebGrid TBODY .Delete", function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".label");
+                    var input = $(this).find(".text");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".Edit").show();
+            row.find(".Update").hide();
+            $(this).hide();
+            var Ticket = {};
+            Ticket.ID = row.find(".ID").find(".label").html();
+            Ticket.Nama = row.find(".Nama").find(".label").html();
+            Ticket.Email = row.find(".Email").find(".label").html();
+            Ticket.Priority = row.find(".Priority").find(".label").html();
+            Ticket.Subject = row.find(".Subject").find(".label").html();
+            Ticket.Message = row.find(".Message").find(".label").html();
+            Ticket.PIC = row.find(".PIC").find(".label").html();
+            $.ajax({
+                type: "POST",
+                url: "/Form/DeleteDataForm",
+                data: JSON.stringify(Ticket),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            });
+        });
+    </script>
+</body>
+</html>

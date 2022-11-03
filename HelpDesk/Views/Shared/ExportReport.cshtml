@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+@{ 
+    var dataStaff = ViewBag.DataStaff; //isinya data staff
+}
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        input[type=text], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+        }
+        input[type=submit] {
+            background-color: #04AA6D;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        .col-25 {
+            float: left;
+            width: 25%;
+            margin-top: 6px;
+        }
+        .col-75 {
+            float: left;
+            width: 75%;
+            margin-top: 6px;
+        }
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="/Form/ExportReport" method="post">
+            <div class="text-center">
+                <h2 style="font-size:30px;"><b>Export Report</b></h2>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-25">
+
+                    <label for="start">Start Date:</label>
+
+                </div>
+                <div class="col-75">
+                    <input type="date" id="CreatedDate" name="CreatedDate"
+                           value="2022-01-01"
+                           min="2022-01-01" max="2022-12-31">
+                    <label for="start"> to:</label>
+                    <input type="date" id="FinishDate" name="FinishDate"
+                           value="2022-01-01"
+                           min="2022-01-01" max="2022-12-31">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">Status</label>
+                </div>
+                <div class="col-75">
+                    <input type="checkbox" name="New" value="New">
+                    <label for="option1"> New</label><br>
+                    <input type="checkbox" name="Progres" value="Progres">
+                    <label for="option2"> Progres</label><br>
+                    <input type="checkbox" name="Done" value="Done">
+                    <label for="option3"> Done</label><br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="Priority">Staff</label>
+                </div>
+                <div class="col-75">
+                    <select id="Staff" name="Staff">
+                        @foreach (var item in @dataStaff)
+                        {
+                            <option value="@item.Nama">@item.Nama</option>
+
+                        }
+                        <option value="All">All Staff</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="Priority">Category</label>
+                </div>
+                <div class="col-75">
+                    <select id="Category" name="Category">
+                        <option value="Sales">Sales</option>
+                        <option value="Data">Data</option>
+                        <option value="General">General</option>
+                        <option value="All">Any Category</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <input type="submit" value="Export Report">
+            </div>
+        </form>
+    </div>
+</body>
+</html>

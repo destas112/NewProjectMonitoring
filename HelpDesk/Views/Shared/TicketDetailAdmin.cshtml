@@ -1,0 +1,161 @@
+﻿@{
+    var data = ViewBag.Data; //data ticket
+    var dataStaff = ViewBag.DataStaff; //data staff (nama&id)
+    var valueRole = Request.Cookies.Get("Role");
+    string dataRole = valueRole.Value;
+    string ModelRole = "";
+    string Role = "";
+
+    if (dataRole.Contains("&"))
+    {
+        var x = dataRole.Substring(dataRole.IndexOf('&') + 1).Split('=');
+        ModelRole = x[1];
+    }
+    else
+    {
+        var x = dataRole.Split('=');
+        ModelRole = x[1];
+    }
+    Role = ModelRole;
+}
+<style>
+    .card {
+        // display: flex;
+        // flex-direction: column;
+        // border-radius: .5rem;
+        background-color: #fff;
+        margin: 1.25rem 0 1.25rem 0;
+        box-shadow: 0 .25rem .5rem #e6edef;
+        height: fit-content;
+        .card-head
+    {
+        // display: flex;
+        // flex-direction: column;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #edf1f7;
+        font-size: 1rem;
+        font-weight: 450;
+    }
+    .card-body {
+        padding: 1rem 1.5rem;
+    }
+    }
+    .alignMe b {
+        display: inline-block;
+        width: 50%;
+        position: relative;
+        padding-right: 10px; /* Ensures colon does not overlay the text */
+    }
+
+        .alignMe b::after {
+            content: ":";
+            position: absolute;
+            right: 5px;
+        }
+    ul.info-list {
+        list-style-type: none;
+    }
+
+        ul.info-list li b {
+            position: relative;
+            display: inline-block;
+            min-width: 144px;
+            margin-right: 4px;
+        }
+
+            ul.info-list li b:after {
+                content: ":";
+                position: absolute;
+                right: 0;
+            }
+</style>
+<div class="card">
+    <br>
+    <div class="text-center">
+        <h2 style="font-size:30px;">Ticket Detail</h2>
+    </div>
+    <br>
+
+    <ul class="info-list">
+        <li><b>ID</b> @data.TicketID</li>
+        <li><b>Nama</b> @data.Nama</li>
+        <li><b>Email</b>@data.Email</li>
+        <li><b>Priority</b> @data.Priority</li>
+        <li><b>Category</b> @data.Category</li>
+        <li><b>Status</b> @data.Status</li>
+        <li><b>PIC</b> @data.PIC</li>
+        <li><b>Subject</b> @data.Subject</li>
+        <li><b>Message</b> @data.Message</li>
+        <li><b>Reply</b> @data.Reply</li>
+        <li><b>Lampiran</b> <a href="~/File/@Path.GetFileName(data.FileName)">@Path.GetFileName(data.FileName)</a></li>
+
+    </ul>
+
+    @if (Role != "3")
+    {
+        <span style="padding-left:27px;">
+            <form action="/Form/UpdateStatusTicket" method="post">
+
+                <input type="hidden" name="ID" value="@data.TicketID" />
+                <div class="col-75">
+                    <label for="Status">&ensp; Status &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</label>
+                    <select id="Status" name="Status" style="width:20%">
+                        <option selected>@data.Status </option>
+                        <option value="New">New</option>
+                        <option value="Progres">Progres</option>
+                        <option value="Done">Done</option>
+                    </select>
+                    <input type="submit" value="Update Status">
+                </div>
+
+            </form>
+        </span>
+        <span style="padding-left:27px;">
+
+            <form action="/Form/UpdateStatusTicket" method="post">
+                <input type="hidden" name="ID" value="@data.TicketID" />
+                <div class="col-75">
+                    <label for="Category">&ensp; Category&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</label>
+                    <select id="Category" name="Category" style="width:20%">
+                        <option selected>@data.Category </option>
+                        <option value="General">General</option>
+                        <option value="Sales">Sales</option>
+                        <option value="Data">Data</option>
+                    </select>
+                    <input type="submit" value="Update Category">
+                </div>
+            </form>
+
+        </span>
+
+        <span style="padding-left:27px;">
+            <form action="/Form/UpdateStatusTicket" method="post">
+                <input type="hidden" name="ID" value="@data.TicketID" />
+                <div class="col-75">
+                    <label for="PIC">&ensp; Assign To &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</label>
+                    <select id="PIC" name="PIC" style="width:20%">
+                        <option selected>@data.PIC </option>
+                        @foreach (var item in @dataStaff)
+                        {
+                            <option value="@item.Nama">@item.Nama</option>
+                        }
+                    </select>
+                    <input type="submit" value="Update PIC">
+                </div>
+            </form>
+
+        </span>
+        <span style="padding-left:27px;">
+            <form action="/Form/UpdateStatusTicket" method="post">
+                <input type="hidden" name="ID" value="@data.TicketID" style="width:20%" />
+                <div class="col-75">
+                    <label for="subject">&ensp; Reply &ensp;&ensp; &ensp; &ensp; &ensp;&ensp; &ensp; &ensp;</label>
+                    <input id="Message" name="Message" placeholder="Write something.." style="width:20%"> </input>
+                    <input type="submit" value="Reply">
+                </div>
+               
+            </form>
+        </span>
+            }
+
+    </div>

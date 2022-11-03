@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+
+@{
+    //untuk nyimpan cookie disini
+    var value = Request.Cookies.Get("LoginHelpDesk"); //isinya nama 
+    var valueRole = Request.Cookies.Get("Role");
+    var valueEmail = Request.Cookies.Get("Email");
+
+    
+    string data = value.Value;
+    string dataRole = valueRole.Value;
+    string dataEmail = valueEmail.Value;
+    string Model = "";
+    string Email = "";
+    string ModelEmail = "";
+    string date = DateTime.Now.ToString("dd/MM/yyyy");
+
+
+    if (data.Contains("&"))
+    {
+        var x = data.Substring(data.IndexOf('&') + 1).Split('=');
+        Model = x[1];
+    }
+    else
+    {
+        var x = data.Split('=');
+        Model = x[1];
+    }
+
+    string nama = Model;
+
+    if (dataEmail.Contains("&"))
+    {
+        var x = dataEmail.Substring(dataEmail.IndexOf('&') + 1).Split('=');
+        ModelEmail = x[1];
+    }
+    else
+    {
+        var x = dataEmail.Split('=');
+        ModelEmail = x[1];
+    }
+
+    Email = ModelEmail;
+    string error = ViewBag.ID;
+
+}
+
+<html>
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        input[type=text], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+        }
+
+        input[type=submit] {
+            background-color: #04AA6D;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+
+            input[type=submit]:hover {
+                background-color: #45a049;
+            }
+
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        .col-25 {
+            float: left;
+            width: 25%;
+            margin-top: 6px;
+        }
+
+        .col-75 {
+            float: left;
+            width: 75%;
+            margin-top: 6px;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+
+    </style>
+</head>
+<body>
+    <div class="text-center">
+        <h2 style="font-size:30px;"><b>Form Submit Ticket</b></h2>
+    </div>
+    <div class="container">
+        <form name="form1" action="/Form/InsertDataForm" method="post" enctype="multipart/form-data">
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">Name</label>
+                </div>
+                <div class="col-75">
+                    <input id="one" type="text" id="Nama" name="Nama" value='@nama' required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="lname">Email</label>
+                </div>
+                <div class="col-75">
+                    <input id="two" type="text" id="Email" name="Email" value='@Email' required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="lname">Date</label>
+                </div>
+                <div class="col-75">
+                    <input id="three" type="datetime" name="Date" value=@date readonly="readonly" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="Category">Category</label>
+                </div>
+                <div class="col-75">
+                    <select name="Category" id="Category">
+                        <option value="" selected="selected">Select Category</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="">Subject</label>
+                </div>
+                <div class="col-75">
+                    <select name="Subject" id="Subject">
+                        <option value="" selected="selected">Select subject</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="subject">Message</label>
+                </div>
+                <div class="col-75">
+                    <textarea id="six" name="Message" placeholder="Write something.." style="height:200px" required></textarea>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="img">Select image:</label>
+                </div>
+                <div class="col-75">
+                    <input type="file" id="ImageFile" name="ImageFile" accept="image/*">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <input name="contact" type="submit" value="Submit Ticket">
+            </div>
+
+        </form>
+    </div>
+</body>
+<script>
+    var subjectObject = {
+        "Data": {
+            "Update data pengguna": ["Links", "Images", "Tables", "Lists"],
+            "Update status pembelanjaan": ["Borders", "Margins", "Backgrounds", "Float"],
+            "Kendala login": ["Variables", "Operators", "Functions", "Conditions"],
+            "Kendala poin belanja belum masuk": ["Variables", "Operators", "Functions", "Conditions"]
+        },
+        "General": {
+            "Kendala melakukan pembayaran ": ["Links", "Images", "Tables", "Lists"],
+            "Kendala menggunakan voucher": ["Borders", "Margins", "Backgrounds", "Float"],
+            "Kendala menggunakan poin": ["Variables", "Operators", "Functions", "Conditions"],
+            "Product tidak ditemukan": ["Variables", "Operators", "Functions", "Conditions"]
+        },
+        "Sales": {
+            "Wilayah tidak tercover oleh jasa pengiriman": ["Variables", "Strings", "Arrays"],
+            "Lainya": ["SELECT", "UPDATE", "DELETE"]
+        }
+    }
+    window.onload = function () {
+        var subjectSel = document.getElementById("Category");
+        var topicSel = document.getElementById("Subject");
+       // var chapterSel = document.getElementById("chapter");
+        for (var x in subjectObject) {
+            subjectSel.options[subjectSel.options.length] = new Option(x, x);
+        }
+        subjectSel.onchange = function () {
+            //empty Chapters- and Topics- dropdowns
+           // chapterSel.length = 1;
+            topicSel.length = 1;
+            //display correct values
+            for (var y in subjectObject[this.value]) {
+                topicSel.options[topicSel.options.length] = new Option(y, y);
+            }
+        }
+        topicSel.onchange = function () {
+            //empty Chapters dropdown
+            chapterSel.length = 1;
+            //display correct values
+            var z = subjectObject[subjectSel.value][this.value];
+            for (var i = 0; i < z.length; i++) {
+                chapterSel.options[chapterSel.options.length] = new Option(z[i], z[i]);
+            }
+        }
+    }
+</script>
+</html>
+
+

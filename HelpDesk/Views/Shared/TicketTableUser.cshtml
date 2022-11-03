@@ -1,0 +1,54 @@
+﻿@{ 
+    var data = ViewBag.Data;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-center">
+        <h2 style="font-size:30px;"><b>Your Ticket</b></h2>
+    </div>
+    <table>
+        <tr>
+            <th>Ticket ID</th>
+            <th>Created Date</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Priority</th>
+            <th>Title</th>
+            <th>Message</th>
+            <th>Status</th>
+            <th>PIC</th>
+            <th>Reply</th>
+        </tr>
+        <tr>
+            <td>@data.TicketID</td>
+            <td>@data.CreatedDate.ToString("MM/dd/yyyy")</td>
+            <td>@data.Nama</td>
+            <td>@data.Email</td>
+            <td>@data.Priority</td>
+            <td>@data.Subject</td>
+            <td>@data.Message</td>
+            <td>@data.Status</td>
+            <td>@data.PIC</td>
+            <td>@data.Reply</td>
+        </tr>
+    </table>
+</body>
+</html>
