@@ -154,10 +154,12 @@
   <ItemGroup>
     <Content Include="Assets\css\sb-admin-2.css" />
     <Content Include="Assets\css\sb-admin-2.min.css" />
+    <Content Include="Assets\img\banner.png" />
     <Content Include="Assets\img\LogoApk.png" />
     <Content Include="Assets\img\LogoHelpdesk.png" />
     <Content Include="Assets\img\LogoKalbe.png" />
     <Content Include="Assets\img\LogoLayout.png" />
+    <Content Include="Assets\img\LogoSipena.png" />
     <Content Include="Assets\img\Profile.png" />
     <Content Include="Assets\img\undraw_posting_photo.svg" />
     <Content Include="Assets\img\undraw_profile.svg" />
@@ -2036,10 +2038,12 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <None Include="Views\Shared\DetailPengajuanDana.cshtml" />
     <Content Include="Views\Shared\FormComplaint.cshtml" />
     <Content Include="Views\Shared\ListTicket.cshtml" />
     <Content Include="Views\Shared\ListTicketAll.cshtml" />
     <Content Include="Views\Shared\ExportReport.cshtml" />
+    <Content Include="Views\Shared\FormPengajuan.cshtml" />
     <None Include="Views\Shared\Login.cshtml" />
     <Content Include="T4MVC.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -2052,6 +2056,9 @@
     </Content>
     <Content Include="Views\Shared\ManageStaffAccount.cshtml" />
     <None Include="Views\Shared\register.cshtml" />
+    <None Include="Views\Shared\Sukses.cshtml" />
+    <Content Include="Views\Shared\SuksesGeneral.cshtml" />
+    <None Include="Views\Shared\WelcomePage.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

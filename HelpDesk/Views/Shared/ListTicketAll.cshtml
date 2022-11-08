@@ -171,7 +171,7 @@
     </style>
 </body>
 <div class="text-center">
-    <h2 style="font-size:30px;"><b>All Ticket</b></h2>
+    <h2 style="font-size:30px;"><b>Semua Program Kerja</b></h2>
 </div>
 <div class="col-lg-8 pb-5">
     <div class="row">
@@ -184,29 +184,37 @@
     <table class="table table-hover mb-0" id="myTable" style="width:150%">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Created Date</th>
-                <th>Name</th>
-                <th>Priority</th>
-                <th>Email</th>
+                <th>IDPengajuan</th>
+                <th>Nama Proker</th>
+                <th>Dana Pengajuan</th>
+                <th>Dana Persetujuan</th>
+                <th>Dokumen</th>
                 <th>Status</th>
-                <th>PIC</th>
-                <th>Action</th>
+
             </tr>
         </thead>
         <tbody>
             @foreach (var item in @data)
             {
-                <tr>
-                    <td><a href="https://localhost:44306/Form/GetTicketByIdAdmin?ID=@item.ID">@item.ID</a></td>
-                    <td>@item.Date</td>
-                    <td>@item.Nama</td>
-                    <td><span class="badge badge-primary m-0">@item.Priority</span></td>
-                    <td><span>@item.Email</span></td>
-                    <td><span>@item.Status</span></td>
-                    <td><span>@item.PIC</span></td>
-                    <td><a href="https://localhost:44306/Form/DeleteDataForm?ID=@item.ID">Delete</a></td>
-                </tr>
+            <tr>
+                <td><a href="https://localhost:44306/Form/GetPengajuanDana?ID=@item.IDPengajuan">@item.IDPengajuan</a></td>
+                <td>@item.NamaProker</td>
+                <td>@item.DanaPengajuan</td>
+                <td><span>@item.DanaPersetujuan</span></td>
+                <td><a href="~/File/@Path.GetFileName(@item.File)">@Path.GetFileName(@item.File)</a></td>
+                @if (item.Status == "0")
+                {
+            <td><span>Belum di proses</span></td>
+}
+                @if (item.Status == "1")
+                {
+            <td><span>Sedang di proses</span></td>
+}
+                @if (item.Status == "2")
+                {
+            <td><span>Proses selesai</span></td> }@*<td><a href="https://localhost:44306/Form/DeleteDataForm?ID=@item.ID">Delete</a></td>
+                    <td><span class="badge badge-primary m-0">@item.Priority</span></td>*@
+            </tr>
             }
         </tbody>
     </table>

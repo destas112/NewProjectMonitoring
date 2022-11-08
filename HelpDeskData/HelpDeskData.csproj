@@ -80,6 +80,8 @@
     </Compile>
     <Compile Include="ExtensionData\ExtendedSelectListItem.cs" />
     <Compile Include="ExtentionTransaction.cs" />
+    <Compile Include="Manage\PengajuanDana.cs" />
+    <Compile Include="Manage\ProgramKerja.cs" />
     <Compile Include="Manage\Ticket.cs" />
     <Compile Include="Manage\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

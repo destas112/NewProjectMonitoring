@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+
+@{ //untuk nyimpan cookie disini
+    var data = ViewBag.Data;
+  }
+
+<html>
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        input[type=text], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+        }
+
+        input[type=submit] {
+            background-color: #04AA6D;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+
+            input[type=submit]:hover {
+                background-color: #45a049;
+            }
+
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        .col-25 {
+            float: left;
+            width: 25%;
+            margin-top: 6px;
+        }
+
+        .col-75 {
+            float: left;
+            width: 75%;
+            margin-top: 6px;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+
+    </style>
+</head>
+<body>
+    <div class="text-center">
+        <h2 style="font-size:30px;"><b>Tambah Program Kerja</b></h2>
+    </div>
+    <div class="container">
+        <form name="form1" action="/Form/InsertDataPengajuanDana" method="post" enctype="multipart/form-data">
+
+
+
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">Nama Program Kerja</label>
+                </div>
+                <div class="col-75">
+                    <input id="one" type="text" id="Nama" name="NamaProgramKerja" value="@data.NamaProker" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="Kategori">Nama Bank</label>
+                </div>
+                <div class="col-75">
+                    <select name="NamaBank" id="Kategori">
+                        <option value="" selected="selected">Pilih Bank</option>
+                        <option value="Bri">Bri</option>
+                        <option value="Bni">Bni</option>
+                        <option value="Bca">Bca</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">Nama Rekening a/n</label>
+                </div>
+                <div class="col-75">
+                    <input id="one" type="text" id="Nama" name="NamaRekening" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">Nomor Rekening</label>
+                </div>
+                <div class="col-75">
+                    <input id="one" type="text" id="Nama" name="NomorRekening" required>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="img">Upload Berkas:</label>
+                </div>
+                <div class="col-75">
+                    <input type="file" id="ImageFile" name="File" accept="pdf/*">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <input name="contact" type="submit" value="Ajukan Dana">
+            </div>
+
+            <div class="col-75">
+                <input id="one" type="hidden" id="Nama" name="ProkerID" value="@data.ProkerID" required>
+            </div>
+
+        </form>
+    </div>
+</body>
+
+</html>
+
+

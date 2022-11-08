@@ -173,12 +173,12 @@
     </style>
 </body>
 <div class="text-center">
-    <h2 style="font-size:30px;"><b>Your Ticket</b></h2>
+    <h2 style="font-size:30px;"><b>Program Kerja</b></h2>
 </div>
 <div class="col-lg-8 pb-5">
     <div class="row">
         <div class="col-25">
-            <label for="sbj">Search Ticket</label>
+            <label for="sbj">Cari Program Kerja</label>
             <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Insert Your Ticket ID here ..." title="Type in a name">
         </div>
     </div>
@@ -186,25 +186,46 @@
         <table class="table table-hover mb-0" id="myTable" style="width:150%">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Created Date</th>
-                    <th>Nama</th>
-                    <th>Priority</th>
-                    <th>Email</th>
-                    <th>Status</th>
+                    <th>ProkerID</th>
+                    <th>Nama Proker</th>
+                    <th>Tanggal Pelaksanaan</th>
+                    <th>Tanggal Akhir Pelaksanaan</th>
+                    <th>Kategori</th>
+                    <th>Dana Pengajuan</th>
+                    <th>Dana Persetujuan</th>
+                    <th>Status Pengajuan</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in @data)
                 {
                 <tr>
-                    <td><a href="https://localhost:44306/Form/GetTicketById?ID=@item.ID">@item.ID</a></td>
-
-                    <td>@item.Date</td>
-                    <td>@item.Nama</td>
-                    <td><span class="badge badge-primary m-0">@item.Priority</span></td>
-                    <td><span>@item.Email</span></td>
-                    <td><span>@item.Status</span></td>
+                    @*<td><a href="https://localhost:44306/Form/GetTicketById?ID=@item.ID">@item.ID</a></td>*@
+                    <td>@item.ID</td>
+                    <td>@item.Proker</td>
+                    <td>@item.TanggalPelaksanaan </td>
+                    <td><span>@item.TanggalAkhir</span></td>
+                    <td><span>@item.Kategori</span></td>
+                    @*<td><span class="badge badge-primary m-0">@item.Priority</span></td>*@
+                    <td><span>@item.DanaPengajuan</span></td>
+                    <td><span>@item.DanaPersetujuan</span></td>
+                    @if (item.StatusPengajuan == "False")
+                    {
+                <td><span class="badge badge-primary m-0">Belum Melakukan Pengajuan Dana</span></td>}
+                    @if (item.Status == "0")
+                    {
+                <td><span>Pengajuan Belum DiProses</span></td>}
+                    @if (item.Status == "1")
+                    {
+                <td><span>Pengajuan Sedang DiProses</span></td>}
+                    @if (item.Status == "2")
+                    {
+                <td><span>Pengajuan Selesai</span></td>
+}
+                    @if (item.StatusPengajuan == "False")
+                    {
+                <td><a href="https://localhost:44306/Form/AddPengajuan?ID=@item.ID">Ajukan Dana Sekarang</a></td>
+}
                 </tr>
                 }
             </tbody>

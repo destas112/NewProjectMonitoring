@@ -69,68 +69,78 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-text mx-3"> <img src="~/Assets/img/LogoLayout.png" width="150" height="50"></div>
+                <div class="sidebar-brand-text mx-3"> <img src="~/Assets/img/LogoSipena.png" width="150" height="80"></div>
             </a>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="https://localhost:44306/Login/GetData?Email=@pic">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Add Ticket</span>
-                </a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="https://localhost:44306/Form/SearchTicket">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Search Ticket</span>
-                </a>
-            </li>
-            @if (Role == "3") //User
+            @if (Role != "1") //Admin
             {
-                <li class="nav-item active">
-                    <a class="nav-link" href="https://localhost:44306/Form/AllTicketUser?nama=@pic">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Your All Ticket</span>
-                    </a>
-                </li>
-            }
+        <li class="nav-item active">
+            <a class="nav-link" href="https://localhost:44306/Login/GetData?Email=@pic">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Tambah Proker</span>
+            </a>
+        </li>
+ }@*<li class="nav-item active">
+        <a class="nav-link" href="https://localhost:44306/Form/SearchTicket">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Search Ticket</span>
+        </a>
+    </li>*@ @*@if (Role == "1") //User
+                    {
+    <li class="nav-item active">
+        <a class="nav-link" href="https://localhost:44306/Form/AllTicketUser?nama=@pic">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Daftar Pengajuan Dana LK</span>
+        </a>
+    </li>}*@
             @if (Role == "2") //staff
             {
-                <li class="nav-item active">
-                    <a class="nav-link" href="https://localhost:44306/Form/TicketTableAdmin?pic=@pic">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Your Own Ticket</span>
-                    </a>
-                </li>
-            }
+        <li class="nav-item active">
+            <a class="nav-link" href="https://localhost:44306/Form/DaftarProkerLK?pic=@pic">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Daftar Program Kerja</span>
+            </a>
+        </li>
+
+                        <li class="nav-item active">
+                            <a class="nav-link" href="https://localhost:44306/Form/DaftarProkerLK?pic=@pic">
+                                <i class="fas fa-fw fa-tachometer-alt"></i>
+                                <span>Pengumpulan LPJ </span>
+                            </a>
+                        </li>}
             @if (Role == "1") //Admin
             {
-                <li class="nav-item active">
-                    <a class="nav-link" href="https://localhost:44306/Form/AllTicket">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>All Ticket</span>
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="https://localhost:44306/User/ManageStaffAccount">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Manage Staff Account</span>
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="https://localhost:44306/Form/OpenExportReport">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Export Report</span>
-                    </a>
-                </li>
-            }
-            <hr class="sidebar-divider d-none d-md-block">
-            <!-- Sidebar Toggler (Sidebar) -->
+        <li class="nav-item active">
+            <a class="nav-link" href="https://localhost:44306/Form/AllPengajuanDana">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Pengajuan Dana</span>
+            </a>
+        </li>
+
+                        <li class="nav-item active">
+                            <a class="nav-link" href="https://localhost:44306/Form/AllPengajuanDana">
+                                <i class="fas fa-fw fa-tachometer-alt"></i>
+                                <span>Pertanggung Jawaban</span>
+                            </a>
+                        </li>
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="https://localhost:44306/User/ManageStaffAccount">
+                                                <i class="fas fa-fw fa-tachometer-alt"></i>
+                                                <span>Kelola Akun LK</span>
+                                            </a>
+                                        </li>
+                                                        <li class="nav-item active">
+                                                            <a class="nav-link" href="https://localhost:44306/Form/OpenExportReport">
+                                                                <i class="fas fa-fw fa-tachometer-alt"></i>
+                                                                <span>Export Report</span>
+                                                            </a>
+                                                        </li>}
+            <hr class="sidebar-divider d-none d-md-block"> <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-            <!-- Sidebar Message -->
+            </div> <!-- Sidebar Message -->
         </ul>
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->

@@ -103,24 +103,54 @@
             display: table;
             clear: both;
         }
+        input[type="date"]::-webkit-inner-spin-button {
+            display: none;
+        }
 
+        .item i, input[type="date"]::-webkit-calendar-picker-indicator {
+            position: absolute;
+            font-size: 20px;
+            color: #a9a9a9;
+        }
+
+        .item i {
+            right: 2%;
+            top: 30px;
+            z-index: 1;
+        }
+
+        [type="date"]::-webkit-calendar-picker-indicator {
+            right: 1%;
+            z-index: 2;
+            opacity: 0;
+            cursor: pointer;
+        }
         /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 
     </style>
 </head>
 <body>
     <div class="text-center">
-        <h2 style="font-size:30px;"><b>Form Submit Ticket</b></h2>
+        <h2 style="font-size:30px;"><b>Tambah Program Kerja</b></h2>
     </div>
     <div class="container">
         <form name="form1" action="/Form/InsertDataForm" method="post" enctype="multipart/form-data">
 
             <div class="row">
                 <div class="col-25">
-                    <label for="fname">Name</label>
+                    <label for="fname">Nama LK</label>
                 </div>
                 <div class="col-75">
                     <input id="one" type="text" id="Nama" name="Nama" value='@nama' required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="lname">Nama Program kerja</label>
+                </div>
+                <div class="col-75">
+                    <input id="two" type="text" id="Email" name="Proker" required>
                 </div>
             </div>
 
@@ -135,53 +165,121 @@
 
             <div class="row">
                 <div class="col-25">
-                    <label for="lname">Date</label>
+                    <label for="lname">Tanggal Pelaksanaan</label>
                 </div>
                 <div class="col-75">
-                    <input id="three" type="datetime" name="Date" value=@date readonly="readonly" required>
+                    <input type="date" name="TanggalPelaksanaan" required />
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-25">
-                    <label for="Category">Category</label>
+                    <label for="lname">Tanggal Akhit Pelaksanaan</label>
                 </div>
                 <div class="col-75">
-                    <select name="Category" id="Category">
+                    <input type="date" name="TanggalAkhir" required />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="lname">Dana Pengajuan</label>
+                </div>
+                <div class="col-75">
+                    <input id="two" type="text" id="Email" name="DanaPengajuan" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="lname">Contact Person</label>
+                </div>
+                <div class="col-75">
+                    <input id="two" type="text" id="Email" name="ContactPerson" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="lname">No Contact Person</label>
+                </div>
+                <div class="col-75">
+                    <input id="two" type="text" id="Email" name="NoHp" value='@Email' required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="Kategori">Kategori</label>
+                </div>
+                <div class="col-75">
+                    <select name="Kategori" id="Kategori">
                         <option value="" selected="selected">Select Category</option>
+                        <option value="Makrab">Makrab</option>
+                        <option value="Lomba">Lomba</option>
+                        <option value="Seminar">Seminar</option>
                     </select>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-25">
-                    <label for="">Subject</label>
+                    <label for="Target">Target Peserta</label>
                 </div>
                 <div class="col-75">
-                    <select name="Subject" id="Subject">
-                        <option value="" selected="selected">Select subject</option>
+                    <select name="Target" id="Target">
+                        <option value="" selected="selected">Select Category</option>
+                        <option value="Mahasiswa Baru">Mahasiswa Baru</option>
+                        <option value="Mahasiswa">Mahasiswa</option>
+                        <option value="Umum">Umum</option>
+
                     </select>
                 </div>
             </div>
 
 
-            <div class="row">
-                <div class="col-25">
-                    <label for="subject">Message</label>
-                </div>
-                <div class="col-75">
-                    <textarea id="six" name="Message" placeholder="Write something.." style="height:200px" required></textarea>
-                </div>
+            @*<div class="row">
+            <div class="col-25">
+                <label for="Category">Category</label>
             </div>
+            <div class="col-75">
+                <select name="Category" id="Category">
+                    <option value="" selected="selected">Select Category</option>
+                </select>
+            </div>
+        </div>*@
+
+
+
+            @*<div class="row">
+            <div class="col-25">
+                <label for="">Subject</label>
+            </div>
+            <div class="col-75">
+                <select name="Subject" id="Subject">
+                    <option value="" selected="selected">Select subject</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-25">
+                <label for="subject">Message</label>
+            </div>
+            <div class="col-75">
+                <textarea id="six" name="Message" placeholder="Write something.." style="height:200px" required></textarea>
+            </div>
+        </div>*@
 
             <br>
 
             <div class="row">
                 <div class="col-25">
-                    <label for="img">Select image:</label>
+                    <label for="img">Upload Dokumen:</label>
                 </div>
                 <div class="col-75">
-                    <input type="file" id="ImageFile" name="ImageFile" accept="image/*">
+                    <input type="file" id="ImageFile" name="File" accept="pdf/*">
                 </div>
             </div>
 

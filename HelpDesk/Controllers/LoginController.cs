@@ -17,7 +17,7 @@ namespace HelpDesk.Controllers
             HttpCookie cookie = Request.Cookies["LoginHelpDesk"]; //isinya nama
             if (cookie != null)
             {
-                return View("SearchTicket");
+                return View("WelcomePage");
             }
 
             return View("Login");
@@ -40,10 +40,10 @@ namespace HelpDesk.Controllers
             return View("Login");
         }
         [HttpGet]
-        public ActionResult GetData(string Email, string Password,string IsEmail)
-            //Penjagaan Email atau Password Kosong
+        public ActionResult GetData(string Email, string Password, string IsEmail)
+        //Penjagaan Email atau Password Kosong
         {
-            if (!string.IsNullOrEmpty(IsEmail)) 
+            if (!string.IsNullOrEmpty(IsEmail))
             {
                 if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
                 {
@@ -51,16 +51,8 @@ namespace HelpDesk.Controllers
                     return View("Login");
                 }
             }
-            LoginModel model = new LoginModel(); 
+            LoginModel model = new LoginModel();
             var dt = !string.IsNullOrEmpty(IsEmail) ? HelpDeskData.User.GetByEmail(Email) : HelpDeskData.User.GetByName(Email);
-
-            //penjagaan akun yang sudah di delete
-            if (dt.IsDelete==true)
-            {
-                ViewBag.Error = "Akun Tidak Ditemukan";
-                return View("Login");
-            }
-            // Penjagaan Email atau Password Salah atau user tidak ditemukan 
             if (!string.IsNullOrEmpty(IsEmail))
             {
                 if (dt == null || dt.Email != Email || dt.Password != Password)
@@ -69,6 +61,14 @@ namespace HelpDesk.Controllers
                     return View("Login");
                 }
             }
+            //penjagaan akun yang sudah di delete
+            if (dt.IsDelete == true)
+            {
+                ViewBag.Error = "Akun Tidak Ditemukan";
+                return View("Login");
+            }
+            // Penjagaan Email atau Password Salah atau user tidak ditemukan 
+
             HttpCookie cookie = Request.Cookies["LoginHelpDesk"]; //nge get data isinya nama
             HttpCookie cookieRole = Request.Cookies["Role"]; // Cookie Role Menentukan Tampilan Dashboard
             HttpCookie cookieEmail = Request.Cookies["Email"]; // Cookie isi email
@@ -125,11 +125,19 @@ namespace HelpDesk.Controllers
 
             if (dt.Role != null)
             {
-                return View("FormComplaint");
+                if (!string.IsNullOrEmpty(IsEmail))
+                {
+                    return View("WelcomePage");
+                }
+                else
+                {
+
+                    return View("FormComplaint");
+                }
             }
             return View("Index");
 
-            
+
         }
         public ActionResult Form()
         {

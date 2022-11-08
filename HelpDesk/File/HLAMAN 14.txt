@@ -1,0 +1,18 @@
+Manajemen kemajuan
+- contoh yg belum diterapkan di aino --> kalo ada 10 testcase, 6 udah dikerjakan berarti udh 60% progressnya. ini blm bisa dilacak gitu
+
+- contohnya --> semisal dari 6 testcase yang udah selesai ada 4 case yang nge bug ini akan mempengaruhi progres pengujian kita karna nanti setelah di report itu akan kita uji lagi otomatis progresnya kan jadi berkurang. kita juga perlu pertimbangkan jadwal pengujian ulangnya kapan
+
+Kontrol kualitas --> standart acasia
+
+Manajemen bug --> 
+perlu dibuat pengelompokna jenis2 bug berdasarkan prioritasnya, jadi yg mana yg harus dikerjakan dlu
+langkah-langkah untuk menghasilkan bug perlu di informasikan, di acasia udah --> evidence
+
+Manajemen konfigurasi -->
+penerapan di acasia udah ada, contohnya dalam pembuatan testcase sampai reporting bug 
+
+Change Manajemen --> apakah ketika ada perubahan feature sudah dipertimbangkan pengaruhnya kepada pengujian yg udah dilakukan
+
+
+beberapa point pertimbangan sudah diterapkan dengan baik oleh acasia

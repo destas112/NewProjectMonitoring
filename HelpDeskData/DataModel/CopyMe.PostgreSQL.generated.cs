@@ -23,8 +23,9 @@ namespace HelpDeskData
 	/// </summary>
 	public partial class HelpDeskDBDB : LinqToDB.Data.DataConnection
 	{
-		public ITable<Ticket> Tickets { get { return this.GetTable<Ticket>(); } }
-		public ITable<User>   Users   { get { return this.GetTable<User>(); } }
+		public ITable<PengajuanDana> PengajuanDanas { get { return this.GetTable<PengajuanDana>(); } }
+		public ITable<ProgramKerja>  ProgramKerjas  { get { return this.GetTable<ProgramKerja>(); } }
+		public ITable<User>          Users          { get { return this.GetTable<User>(); } }
 
 		partial void InitMappingSchema()
 		{
@@ -62,23 +63,50 @@ namespace HelpDeskData
 		partial void InitMappingSchema();
 	}
 
-	[Table(Schema="public", Name="Ticket")]
-	public partial class Ticket
+	[Table(Schema="public", Name="PengajuanDana")]
+	public partial class PengajuanDana
 	{
-		[PrimaryKey, NotNull    ] public string    TicketID    { get; set; } // text
-		[Column,        Nullable] public string    Nama        { get; set; } // text
-		[Column,        Nullable] public string    Email       { get; set; } // text
-		[Column,        Nullable] public string    Priority    { get; set; } // text
-		[Column,        Nullable] public string    Subject     { get; set; } // text
-		[Column,        Nullable] public string    Message     { get; set; } // text
-		[Column,        Nullable] public string    PIC         { get; set; } // text
-		[Column,     NotNull    ] public bool      IsDelete    { get; set; } // boolean
-		[Column,        Nullable] public string    Status      { get; set; } // text
-		[Column,        Nullable] public DateTime? CreatedDate { get; set; } // date
-		[Column,        Nullable] public DateTime? FinishDate  { get; set; } // date
-		[Column,        Nullable] public string    Category    { get; set; } // text
-		[Column,        Nullable] public string    Reply       { get; set; } // text
-		[Column,        Nullable] public string    FileName    { get; set; } // text
+		[PrimaryKey, NotNull    ] public string    IDPengajuan        { get; set; } // text
+		[Column,        Nullable] public string    NamaProker         { get; set; } // text
+		[Column,        Nullable] public string    DanaPengajuan      { get; set; } // text
+		[Column,        Nullable] public string    DanaPersetujuan    { get; set; } // text
+		[Column,        Nullable] public string    NoRekening         { get; set; } // text
+		[Column,        Nullable] public string    NamaBank           { get; set; } // text
+		[Column,        Nullable] public string    NamaRekening       { get; set; } // text
+		[Column,        Nullable] public DateTime? TanggalPengajuan   { get; set; } // date
+		[Column,        Nullable] public string    TemaKegiatan       { get; set; } // text
+		[Column,        Nullable] public string    JumlahPanitia      { get; set; } // text
+		[Column,        Nullable] public DateTime? TanggalProses      { get; set; } // date
+		[Column,        Nullable] public DateTime? TanggalTerealisasi { get; set; } // date
+		[Column,        Nullable] public string    IDProker           { get; set; } // text
+		[Column,        Nullable] public string    File               { get; set; } // text
+		[Column,        Nullable] public string    Status             { get; set; } // text
+		[Column,        Nullable] public string    Keterangan         { get; set; } // text
+		[Column,     NotNull    ] public bool      IsDelete           { get; set; } // boolean
+	}
+
+	[Table(Schema="public", Name="ProgramKerja")]
+	public partial class ProgramKerja
+	{
+		[PrimaryKey, NotNull    ] public string    ProkerID        { get; set; } // text
+		[Column,        Nullable] public string    NamaLK          { get; set; } // text
+		[Column,        Nullable] public string    Email           { get; set; } // text
+		[Column,        Nullable] public string    Kategori        { get; set; } // text
+		[Column,        Nullable] public string    DanaPengajuan   { get; set; } // text
+		[Column,        Nullable] public string    DanaPersetujuan { get; set; } // text
+		[Column,        Nullable] public string    PIC             { get; set; } // text
+		[Column,     NotNull    ] public bool      IsDelete        { get; set; } // boolean
+		[Column,        Nullable] public string    Status          { get; set; } // text
+		[Column,        Nullable] public DateTime? CreatedDate     { get; set; } // date
+		[Column,        Nullable] public DateTime? FinishDate      { get; set; } // date
+		[Column,        Nullable] public string    Category        { get; set; } // text
+		[Column,        Nullable] public string    Reply           { get; set; } // text
+		[Column,        Nullable] public string    FileName        { get; set; } // text
+		[Column,        Nullable] public string    ContactPerson   { get; set; } // text
+		[Column,        Nullable] public string    TargetPeserta   { get; set; } // text
+		[Column,        Nullable] public string    Keterangan      { get; set; } // text
+		[Column,        Nullable] public string    NamaProker      { get; set; } // text
+		[Column,        Nullable] public bool?     IsPengajuan     { get; set; } // boolean
 	}
 
 	[Table(Schema="public", Name="User")]
@@ -95,10 +123,16 @@ namespace HelpDeskData
 
 	public static partial class TableExtensions
 	{
-		public static Ticket Find(this ITable<Ticket> table, string TicketID)
+		public static PengajuanDana Find(this ITable<PengajuanDana> table, string IDPengajuan)
 		{
 			return table.FirstOrDefault(t =>
-				t.TicketID == TicketID);
+				t.IDPengajuan == IDPengajuan);
+		}
+
+		public static ProgramKerja Find(this ITable<ProgramKerja> table, string ProkerID)
+		{
+			return table.FirstOrDefault(t =>
+				t.ProkerID == ProkerID);
 		}
 
 		public static User Find(this ITable<User> table, string ID)
