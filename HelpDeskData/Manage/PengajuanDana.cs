@@ -27,12 +27,24 @@ namespace HelpDeskData
         }
         public static IQueryable<PengajuanDana> GetByAll()
         {
-            return CurrentDataContext.CurrentContext.PengajuanDanas.Where(x => !x.IsDelete);
+            return CurrentDataContext.CurrentContext.PengajuanDanas.Where(x => !x.IsDelete && x.Status != "0");
         }
         public static PengajuanDana GetByID(string ID)
         {
             return CurrentDataContext.CurrentContext.PengajuanDanas.FirstOrDefault(x => x.IDPengajuan == ID);
         }
+        public static IQueryable<PengajuanDana> GetbyStatus(string status)
+        {
+            return CurrentDataContext.CurrentContext.PengajuanDanas.Where(x => x.Status == status);
+
+        }
+
+        public static PengajuanDana GetByProkerID(string ID)
+        {
+            return CurrentDataContext.CurrentContext.PengajuanDanas.FirstOrDefault(x => x.IDProker == ID);
+        }
+
+
 
     }
 }

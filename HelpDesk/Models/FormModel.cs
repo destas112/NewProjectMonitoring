@@ -83,6 +83,7 @@ namespace HelpDesk.Models
         public string File { get; set; }
 
         public string StatusPengajuan { get; set; }
+        public string LPJ { get; set; }
     }
 
 
@@ -93,6 +94,28 @@ namespace HelpDesk.Models
         public string NamaBank { get; set; }
         public string NamaRekening { get; set; }
         public string NomorRekening { get; set; }
+
+        public DateTime TanggalTerealisasi { get; set; }
+        public DateTime TanggalAkhirTerealisasi { get; set; }
+        public HttpPostedFileBase File { get; set; }
+    }
+
+    public class PertanggungJawabanModel
+    {
+        public string ProkerID { get; set; }
+        public string NamaProgramKerja { get; set; }
+        public string StatusPengumpulan { get; set; }
+        public string IsLpj { get; set; }
+        public string StatusKumpulOnline { get; set; }
+        public string StatusKumpulOffline { get; set; }
+        public string Deadline { get; set; }
+        public string TanggalPengumpulan { get; set; }
+        public string TanggalPengajuanDana { get; set; }
+        public string Keterangan { get; set; }
+        public string DanaPengajuan { get; set; }
+        public string DanaPersetujuan { get; set; }
+
+
         public HttpPostedFileBase File { get; set; }
     }
 

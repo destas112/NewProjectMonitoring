@@ -2,7 +2,7 @@
 
 @{ //untuk nyimpan cookie disini
     var data = ViewBag.Data;
-  }
+    var dataProker = ViewBag.DataProker;}
 
 <html>
 <head>
@@ -72,10 +72,16 @@
         <h2 style="font-size:30px;"><b>Tambah Program Kerja</b></h2>
     </div>
     <div class="container">
-        <form name="form1" action="/Form/InsertDataPengajuanDana" method="post" enctype="multipart/form-data">
+        <form name="form1" action="/Form/Verifikasi" method="post" enctype="multipart/form-data">
 
-
-
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">Nama LK</label>
+                </div>
+                <div class="col-75">
+                    <input id="one" type="text" id="Nama" name="NamaProgramKerja" value="@dataProker.NamaLK" required>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-25">
@@ -86,74 +92,37 @@
                 </div>
             </div>
 
+
             <div class="row">
                 <div class="col-25">
-                    <label for="Kategori">Nama Bank</label>
+                    <label for="fname">Dana Pengajuan</label>
                 </div>
                 <div class="col-75">
-                    <select name="NamaBank" id="Kategori">
-                        <option value="" selected="selected">Pilih Bank</option>
-                        <option value="Bri">Bri</option>
-                        <option value="Bni">Bni</option>
-                        <option value="Bca">Bca</option>
-                    </select>
+                    <input id="one" type="text" id="Nama" name="DanaPengajuan" value="@data.DanaPengajuan" required>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-25">
-                    <label for="fname">Nama Rekening a/n</label>
+                    <label for="fname">Dana Persetujuan</label>
                 </div>
                 <div class="col-75">
-                    <input id="one" type="text" id="Nama" name="NamaRekening" required>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-25">
-                    <label for="fname">Nomor Rekening</label>
-                </div>
-                <div class="col-75">
-                    <input id="one" type="text" id="Nama" name="NomorRekening" required>
-                </div>
-            </div>
-
-            <br>
-            <div class="row">
-                <div class="col-25">
-                    <label for="lname">Tanggal Pelaksanaan Terealisasi</label>
-                </div>
-                <div class="col-75">
-                    <input type="date" name="TanggalTerealisasi" required />
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-25">
-                    <label for="lname">Tanggal Akhir Pelaksanaan Terealisasi</label>
-                </div>
-                <div class="col-75">
-                    <input type="date" name="TanggalAkhirTerealisasi" required />
+                    <input id="one" type="text" id="Nama" name="DanaPersetujuan" required>
                 </div>
             </div>
             <div class="row">
                 <div class="col-25">
-                    <label for="img">Upload Berkas:</label>
+                    <label for="fname">Lampiran Dokumen</label>
                 </div>
                 <div class="col-75">
-                    <input type="file" id="ImageFile" name="File" accept="pdf/*">
+                    <a href="~/File/@Path.GetFileName(@data.File)">@Path.GetFileName(@data.File)</a>
                 </div>
             </div>
-
-            <br>
-
             <div class="row">
-                <input name="contact" type="submit" value="Ajukan Dana">
+                <input name="contact" type="submit" value="Verifikasi">
             </div>
+            <input name="IDPengajuan" type="hidden" value="@data.IDPengajuan">
 
-            <div class="col-75">
-                <input id="one" type="hidden" id="Nama" name="ProkerID" value="@data.ProkerID" required>
-            </div>
 
         </form>
     </div>

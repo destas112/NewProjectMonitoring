@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using HelpDesk.Models;
-using HelpDeskData;
+
 
 
 namespace HelpDesk.Controllers

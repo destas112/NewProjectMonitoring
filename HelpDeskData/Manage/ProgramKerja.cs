@@ -31,12 +31,17 @@ namespace HelpDeskData
         }
         public static IQueryable<ProgramKerja> GetByPIC(string pic)
         {
-            return CurrentDataContext.CurrentContext.ProgramKerjas.Where(x => x.NamaLK == pic && !x.IsDelete).OrderBy(x => x.CreatedDate);
+            return CurrentDataContext.CurrentContext.ProgramKerjas.Where(x => x.NamaLK == pic && !x.IsDelete && x.Status != "3").OrderBy(x => x.CreatedDate);
 
         }
         public static ProgramKerja GetByID(string ID)
         {
             return CurrentDataContext.CurrentContext.ProgramKerjas.FirstOrDefault(x => x.ProkerID == ID);
+        }
+        public static IQueryable<ProgramKerja> GetForListLPJ(string pic)
+        {
+            return CurrentDataContext.CurrentContext.ProgramKerjas.Where(x => x.NamaLK == pic && !x.IsDelete && x.Status == "3").OrderBy(x => x.CreatedDate);
+
         }
     }
 }

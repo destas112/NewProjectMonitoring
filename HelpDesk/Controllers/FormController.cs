@@ -27,7 +27,11 @@ namespace HelpDesk.Controllers
         public ActionResult InsertDataForm(ProkerModel model)
         {
             string ID = GenerateID();
+            
+
             HelpDeskData.ProgramKerja dt = new HelpDeskData.ProgramKerja(); //langsung deklarasi model 1 tabel ticket(1 row)
+            HelpDeskData.PengajuanDana dtPengajuan = new HelpDeskData.PengajuanDana(); //langsung deklarasi model 1 tabel ticket(1 row)
+            HelpDeskData.PertanggungJawaban dtLpj = new HelpDeskData.PertanggungJawaban(); //langsung deklarasi model 1 tabel ticket(1 row)
             dt.ProkerID = ID;
             dt.NamaLK = model.Nama;
             dt.NamaProker = model.Proker;
@@ -55,7 +59,25 @@ namespace HelpDesk.Controllers
             }
             dt.Insert("");//
             ViewBag.ID = ID;
-           // var email = SendEmailKonfirmationUser(model.Email,ID);
+            ///////////-------ADD PENGAJUAN DANAA---------///////////////
+            string IDPengajuan = GenerateID();
+            dtPengajuan.IDPengajuan = IDPengajuan;
+            dtPengajuan.IDProker = ID;
+            dtPengajuan.NamaProker = model.Proker;
+            dtPengajuan.IsDelete = false;
+            dtPengajuan.Insert("");
+
+            ///////////-------ADD PERTANGGUNG JAWABAN---------///////////////
+            string IDLpj = GenerateID();
+            dtLpj.IDPertanggungJawaban = IDLpj;
+            dtLpj.IDPengajuanDana = IDPengajuan;
+            dtLpj.IDProker = ID;
+            dtLpj.StatusKumpulOnline = "0";
+            dtLpj.StatusKumpulOffline = "0";
+            dtLpj.Insert("");
+
+
+            // var email = SendEmailKonfirmationUser(model.Email,ID);
             return View("SuksesGeneral");
         }
 
@@ -79,9 +101,9 @@ namespace HelpDesk.Controllers
         public ActionResult InsertDataPengajuanDana(PengajuanDanaModel model)
         {
             string ID = GenerateID();
-            HelpDeskData.PengajuanDana dt = new HelpDeskData.PengajuanDana(); //langsung deklarasi model 1 tabel ticket(1 row)
+            HelpDeskData.PengajuanDana dt = PengajuanDana.GetByProkerID(model.ProkerID); //langsung deklarasi model 1 tabel ticket(1 row)
             HelpDeskData.ProgramKerja dtProker = ProgramKerja.GetByID(model.ProkerID);
-            dt.IDPengajuan = ID;
+          //  dt.IDPengajuan = ID;
             dt.DanaPengajuan = dtProker.DanaPengajuan;
             dt.NamaProker = dtProker.NamaProker;
             dt.DanaPersetujuan = "";
@@ -89,7 +111,8 @@ namespace HelpDesk.Controllers
             dt.NamaBank = model.NamaBank;
             dt.NamaRekening = model.NamaRekening;
             dt.TanggalPengajuan = DateTime.Now;
-            dt.TanggalTerealisasi = new DateTime();
+            dt.TanggalTerealisasi = model.TanggalTerealisasi;
+            dt.TanggalAkhirTerealisasi = model.TanggalAkhirTerealisasi;
             dt.TemaKegiatan = dtProker.Category;
             dt.JumlahPanitia = "";
             dt.TanggalProses = new DateTime();
@@ -109,7 +132,7 @@ namespace HelpDesk.Controllers
             dtProker.Status = "0";
             dtProker.Update("");
             dt.Status = "0";
-            dt.Insert("");//
+            dt.Update("");// 
             ViewBag.ID = ID;
             // var email = SendEmailKonfirmationUser(model.Email,ID);
             return View("SuksesGeneral");
@@ -135,6 +158,112 @@ namespace HelpDesk.Controllers
             ViewBag.Data = model;
 
             return View("DetailPengajuanDana");
+        }
+
+        public ActionResult DaftarVerifikasi()
+        {
+
+            List<PengajuanDana> model = new List<PengajuanDana>();
+            var data = PengajuanDana.GetbyStatus("0").ToList();
+            model = data;
+            ViewBag.Data = model;
+
+            return View("DaftarVerifikasi");
+        }
+        public ActionResult GetDetailVerifikasi(string ID)
+        {
+
+            PengajuanDana model = new PengajuanDana();
+            var data = PengajuanDana.GetByID(ID);
+            var dataproker = ProgramKerja.GetByID(data.IDProker);
+            model = data;
+            ViewBag.Data = model;
+            ViewBag.DataProker = dataproker;
+
+            return View("DetailVerifikasi");
+        }
+
+        public ActionResult Verifikasi(PengajuanDana model)
+        {
+            PengajuanDana DtPengajuan = PengajuanDana.GetByID(model.IDPengajuan);
+            ProgramKerja DtProker = ProgramKerja.GetByID(DtPengajuan.IDProker);
+            DtPengajuan.Status = "1";
+            DtPengajuan.DanaPersetujuan = model.DanaPersetujuan;
+            DtPengajuan.Update("");
+
+            DtProker.Status = "1";
+            DtProker.Update("");
+            return View("Sukses");
+        }
+
+
+        [HttpGet]
+        public ActionResult DaftarProkerLK(string pic)
+        {
+            List<ListProkerModel> model = new List<ListProkerModel>();
+            // List <Ticket> model = new List<Ticket>();
+            var data = ProgramKerja.GetByPIC(pic).OrderByDescending(x => x.CreatedDate);
+            //model = data;
+            foreach (var item in data)
+            {
+                ListProkerModel dt = new ListProkerModel();
+                dt.ID = item.ProkerID;
+                dt.TanggalPelaksanaan = item.CreatedDate.GetValueOrDefault().ToString("MM/dd/yyyy");
+                dt.TanggalAkhir = item.FinishDate.GetValueOrDefault().ToString("MM/dd/yyyy");
+                dt.Proker = item.NamaProker;
+                dt.Email = item.Email;
+                dt.Kategori = item.NamaProker;
+                dt.DanaPengajuan = item.DanaPengajuan;
+                dt.DanaPersetujuan = item.DanaPersetujuan;
+                dt.Status = item.Status;
+                dt.StatusPengajuan = item.IsPengajuan.ToString();
+
+                model.Add(dt);
+            }
+            ViewBag.Data = model;
+            return View("ListTicket");
+        }
+        [HttpGet]
+        public ActionResult UpdateStatusPengajuan(PengajuanDana model)
+        {
+            PengajuanDana DtPengajuan = PengajuanDana.GetByID(model.IDPengajuan);
+            ProgramKerja DtProker = ProgramKerja.GetByID(model.IDProker);
+            DtPengajuan.Status = model.Status;
+            DtPengajuan.Keterangan = model.Keterangan;
+            DtPengajuan.TanggalProses = DateTime.Now;
+            DtPengajuan.Update("");
+
+            DtProker.Status = model.Status;
+            DtProker.Update("");
+            return View("Sukses");
+        }
+
+        [HttpGet]
+        public ActionResult GetDataLPJLK(string pic)
+        {
+            List<PertanggungJawabanModel> Result = new List<PertanggungJawabanModel>();
+            var data = ProgramKerja.GetForListLPJ(pic).OrderByDescending(x => x.CreatedDate);
+            //model = data;
+            
+            foreach (var item in data)
+            {
+                PertanggungJawabanModel model = new PertanggungJawabanModel();
+                var dtPengajuan = PengajuanDana.GetByProkerID(item.ProkerID);
+                var dt = PertanggungJawaban.GetByProkerID(item.ProkerID);
+               model.ProkerID = dt.IDProker;
+                model.NamaProgramKerja = dtPengajuan.NamaProker;
+                model.IsLpj = dtPengajuan.IsLPJ.ToString();
+                model.StatusKumpulOffline = dt.StatusKumpulOffline;
+                model.StatusKumpulOnline = dt.StatusKumpulOnline;
+                model.Deadline = dtPengajuan.TanggalPengajuan.GetValueOrDefault().AddDays(30).ToString("MM/dd/yyyy");
+                model.TanggalPengumpulan = dt.TanggalPengumpulan.GetValueOrDefault().ToString("MM/dd/yyyy");
+                model.TanggalPengajuanDana = dtPengajuan.TanggalPengajuan.GetValueOrDefault().ToString("MM/dd/yyyy");
+                model.DanaPengajuan = dtPengajuan.DanaPengajuan;
+                model.DanaPersetujuan = dtPengajuan.DanaPersetujuan;
+                model.Keterangan = string.IsNullOrEmpty(dt.Keterangan) ?"" : dt.Keterangan;
+            }
+            ViewBag.Data = Result;
+            return View("ListLPJLK");
         }
 
 
@@ -193,46 +322,6 @@ namespace HelpDesk.Controllers
         //    return View("TicketDetailAdmin");
         //}
 
-        [HttpGet]
-        public ActionResult DaftarProkerLK(string pic)
-        {
-            List<ListProkerModel> model = new List<ListProkerModel>();
-            // List <Ticket> model = new List<Ticket>();
-            var data = ProgramKerja.GetByPIC(pic).OrderByDescending(x => x.CreatedDate);
-            //model = data;
-            foreach (var item in data)
-            {
-                ListProkerModel dt = new ListProkerModel();
-                dt.ID = item.ProkerID;
-                dt.TanggalPelaksanaan = item.CreatedDate.GetValueOrDefault().ToString("MM/dd/yyyy");
-                dt.TanggalAkhir = item.FinishDate.GetValueOrDefault().ToString("MM/dd/yyyy");
-                dt.Proker = item.NamaProker;
-                dt.Email = item.Email;
-                dt.Kategori = item.NamaProker;
-                dt.DanaPengajuan = item.DanaPengajuan;
-                dt.DanaPersetujuan = item.DanaPersetujuan;
-                dt.Status = item.Status;
-                dt.StatusPengajuan = item.IsPengajuan.ToString();
-
-                model.Add(dt);
-            }
-            ViewBag.Data = model;
-            return View("ListTicket");
-        }
-        [HttpGet]
-        public ActionResult UpdateStatusPengajuan(PengajuanDana model)
-        {
-            PengajuanDana DtPengajuan = PengajuanDana.GetByID(model.IDPengajuan);
-            ProgramKerja DtProker = ProgramKerja.GetByID(model.IDProker);
-            DtPengajuan.Status = model.Status;
-            DtPengajuan.Keterangan = model.Keterangan;
-            DtPengajuan.TanggalProses = DateTime.Now;
-            DtPengajuan.Update("");
-
-            DtProker.Status = model.Status;
-            DtProker.Update("");
-            return View("Sukses");
-        }
         //[HttpGet]
         //public ActionResult AllTicket()
         //{

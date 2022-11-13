@@ -202,15 +202,15 @@
                 <td>@item.DanaPengajuan</td>
                 <td><span>@item.DanaPersetujuan</span></td>
                 <td><a href="~/File/@Path.GetFileName(@item.File)">@Path.GetFileName(@item.File)</a></td>
-                @if (item.Status == "0")
+                @if (item.Status == "1")
                 {
             <td><span>Belum di proses</span></td>
 }
-                @if (item.Status == "1")
+                @if (item.Status == "2")
                 {
             <td><span>Sedang di proses</span></td>
 }
-                @if (item.Status == "2")
+                @if (item.Status == "3")
                 {
             <td><span>Proses selesai</span></td> }@*<td><a href="https://localhost:44306/Form/DeleteDataForm?ID=@item.ID">Delete</a></td>
                     <td><span class="badge badge-primary m-0">@item.Priority</span></td>*@

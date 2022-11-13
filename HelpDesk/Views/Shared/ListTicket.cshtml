@@ -214,14 +214,14 @@
                 <td><span class="badge badge-primary m-0">Belum Melakukan Pengajuan Dana</span></td>}
                     @if (item.Status == "0")
                     {
-                <td><span>Pengajuan Belum DiProses</span></td>}
+                <td><span>Menunggu Verifikasi BEM U</span></td>}
                     @if (item.Status == "1")
                     {
-                <td><span>Pengajuan Sedang DiProses</span></td>}
+                <td><span>Menunggu Antrian Biro</span></td>}
                     @if (item.Status == "2")
                     {
-                <td><span>Pengajuan Selesai</span></td>
-}
+                <td><span>Pengajuan Di Proses</span></td>
+                    }
                     @if (item.StatusPengajuan == "False")
                     {
                 <td><a href="https://localhost:44306/Form/AddPengajuan?ID=@item.ID">Ajukan Dana Sekarang</a></td>
