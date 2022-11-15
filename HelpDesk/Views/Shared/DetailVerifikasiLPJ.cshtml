@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+
+@{ //untuk nyimpan cookie disini
+    var data = ViewBag.Data;
+    var dataProker = ViewBag.DataNamaProker;}
+
+<html>
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        input[type=text], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+        }
+
+        input[type=submit] {
+            background-color: #04AA6D;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+
+            input[type=submit]:hover {
+                background-color: #45a049;
+            }
+
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        .col-25 {
+            float: left;
+            width: 25%;
+            margin-top: 6px;
+        }
+
+        .col-75 {
+            float: left;
+            width: 75%;
+            margin-top: 6px;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+
+    </style>
+</head>
+<body>
+    <div class="text-center">
+        <h2 style="font-size:30px;"><b>Verifikasi Laporan Pertanggung Jawaban</b></h2>
+    </div>
+    <div class="container">
+        <form name="form1" action="/Form/VerifikasiLPJ" method="post" enctype="multipart/form-data">
+
+            @*<div class="row">
+            <div class="col-25">
+                <label for="fname">Nama LK</label>
+            </div>
+            <div class="col-75">
+                <input id="one" type="text" id="Nama" name="NamaProgramKerja" value="@dataProker.NamaLK" required>
+            </div>
+        </div>*@
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">Nama Program Kerja</label>
+                </div>
+                <div class="col-75">
+                    <input id="one" type="text" id="Nama" name="NamaProgramKerja" value="@dataProker" required>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">Dana Pemasukan</label>
+                </div>
+                <div class="col-75">
+                    <input id="one" type="text" id="Nama" name="DanaPengajuan" value="@data.DanaPemasukan" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">DanaPengeluaran</label>
+                </div>
+                <div class="col-75">
+                    <input id="one" type="text" id="Nama" value="@data.DanaPengeluaran" name="DanaPengeluaran" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">Lampiran Dokumen</label>
+                </div>
+                <div class="col-75">
+                    <a href="~/File/@Path.GetFileName(@data.File)">@Path.GetFileName(@data.File)</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">Status</label>
+                </div>
+                <div class="col-75">
+                    <select name="StatusKumpulOnline" required>
+                        <option value="1">Diterima</option>
+                        <option value="8">Ditolak</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="subject">Keterangan</label>
+                </div>
+                <div class="col-75">
+                    <textarea id="six" name="Keterangan" placeholder="" style="height:200px" ></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <input name="contact" type="submit" value="Verifikasi">
+            </div>
+            <input name="IDProker" type="hidden" value="@data.IDProker">
+
+
+        </form>
+    </div>
+</body>
+
+</html>
+
+

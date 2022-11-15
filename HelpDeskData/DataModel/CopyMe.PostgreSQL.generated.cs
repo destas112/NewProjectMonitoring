@@ -91,18 +91,18 @@ namespace HelpDeskData
 	[Table(Schema="public", Name="PertanggungJawaban")]
 	public partial class PertanggungJawaban
 	{
-		[Column, Nullable] public string    IDPertanggungJawaban { get; set; } // text
-		[Column, Nullable] public string    IDProker             { get; set; } // text
-		[Column, Nullable] public string    IDPengajuanDana      { get; set; } // text
-		[Column, Nullable] public string    File                 { get; set; } // text
-		[Column, Nullable] public string    DanaPemasukan        { get; set; } // text
-		[Column, Nullable] public string    DanaPengeluaran      { get; set; } // text
-		[Column, Nullable] public string    StatusKumpulOnline   { get; set; } // text
-		[Column, Nullable] public string    StatusKumpulOffline  { get; set; } // text
-		[Column, Nullable] public string    PesertaTerealisasi   { get; set; } // text
-		[Column, Nullable] public DateTime? Deadline             { get; set; } // date
-		[Column, Nullable] public DateTime? TanggalPengumpulan   { get; set; } // date
-		[Column, Nullable] public string    Keterangan           { get; set; } // text
+		[PrimaryKey, NotNull    ] public string    IDPertanggungJawaban { get; set; } // text
+		[Column,        Nullable] public string    IDProker             { get; set; } // text
+		[Column,        Nullable] public string    IDPengajuanDana      { get; set; } // text
+		[Column,        Nullable] public string    File                 { get; set; } // text
+		[Column,        Nullable] public string    DanaPemasukan        { get; set; } // text
+		[Column,        Nullable] public string    DanaPengeluaran      { get; set; } // text
+		[Column,        Nullable] public string    StatusKumpulOnline   { get; set; } // text
+		[Column,        Nullable] public string    StatusKumpulOffline  { get; set; } // text
+		[Column,        Nullable] public string    PesertaTerealisasi   { get; set; } // text
+		[Column,        Nullable] public DateTime? Deadline             { get; set; } // date
+		[Column,        Nullable] public DateTime? TanggalPengumpulan   { get; set; } // date
+		[Column,        Nullable] public string    Keterangan           { get; set; } // text
 	}
 
 	[Table(Schema="public", Name="ProgramKerja")]
@@ -148,6 +148,12 @@ namespace HelpDeskData
 		{
 			return table.FirstOrDefault(t =>
 				t.IDPengajuan == IDPengajuan);
+		}
+
+		public static PertanggungJawaban Find(this ITable<PertanggungJawaban> table, string IDPertanggungJawaban)
+		{
+			return table.FirstOrDefault(t =>
+				t.IDPertanggungJawaban == IDPertanggungJawaban);
 		}
 
 		public static ProgramKerja Find(this ITable<ProgramKerja> table, string ProkerID)

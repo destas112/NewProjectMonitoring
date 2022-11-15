@@ -2037,6 +2037,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <None Include="Views\Shared\DetailPengajuanDana.cshtml" />
     <None Include="Views\Shared\DaftarVerifikasi.cshtml" />
+    <None Include="Views\Shared\DaftarVerifikasiLPJ.cshtml" />
     <Content Include="Views\Shared\FormComplaint.cshtml" />
     <Content Include="Views\Shared\ListTicket.cshtml" />
     <Content Include="Views\Shared\ListTicketAll.cshtml" />
@@ -2044,6 +2045,8 @@
     <Content Include="Views\Shared\FormPengajuan.cshtml" />
     <Content Include="Views\Shared\DetailVerifikasi.cshtml" />
     <Content Include="Views\Shared\ListLpjLK.cshtml" />
+    <Content Include="Views\Shared\FormTambahLPJ.cshtml" />
+    <Content Include="Views\Shared\DetailVerifikasiLPJ.cshtml" />
     <None Include="Views\Shared\Login.cshtml" />
     <Content Include="T4MVC.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -2055,6 +2058,7 @@
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Content>
     <Content Include="Views\Shared\ManageStaffAccount.cshtml" />
+    <Content Include="Views\Shared\LpjBiro.cshtml" />
     <None Include="Views\Shared\register.cshtml" />
     <None Include="Views\Shared\Sukses.cshtml" />
     <Content Include="Views\Shared\SuksesGeneral.cshtml" />

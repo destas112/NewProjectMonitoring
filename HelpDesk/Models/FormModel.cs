@@ -103,7 +103,9 @@ namespace HelpDesk.Models
     public class PertanggungJawabanModel
     {
         public string ProkerID { get; set; }
+        public string IDPengajuanDana { get; set; }
         public string NamaProgramKerja { get; set; }
+        public string NamaLK { get; set; }
         public string StatusPengumpulan { get; set; }
         public string IsLpj { get; set; }
         public string StatusKumpulOnline { get; set; }
@@ -114,10 +116,25 @@ namespace HelpDesk.Models
         public string Keterangan { get; set; }
         public string DanaPengajuan { get; set; }
         public string DanaPersetujuan { get; set; }
+        public string DanaPemasukan { get; set; }
+        public string DanaPengeluaran { get; set; }
 
+        public string IsDeadline { get; set; }
+
+        public string FileName { get; set; }
 
         public HttpPostedFileBase File { get; set; }
     }
+
+    public class LPJModel
+    {
+        public string IDProker { get; set; }
+        public string DanaPemasukan { get; set; }
+        public string DanaPengeluaran { get; set; }
+        public string PesertaTerealisasi { get; set; }
+        public HttpPostedFileBase File { get; set; }
+    }
+
 
 
 

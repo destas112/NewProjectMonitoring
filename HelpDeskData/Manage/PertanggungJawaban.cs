@@ -30,5 +30,16 @@ namespace HelpDeskData
             return CurrentDataContext.CurrentContext.PertanggungJawabans.FirstOrDefault(x => x.IDProker == ID);
         }
 
+        public static IQueryable<PertanggungJawaban> GetbyStatus(string status)
+        {
+            return CurrentDataContext.CurrentContext.PertanggungJawabans.Where(x => x.StatusKumpulOnline == status);
+
+        }
+
+        public static IQueryable<PertanggungJawaban> GetByAllForBiro()
+        {
+            return CurrentDataContext.CurrentContext.PertanggungJawabans.Where(x => x.StatusKumpulOnline == "1");
+        }
+
     }
 }

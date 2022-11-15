@@ -1,5 +1,7 @@
-﻿@{ ViewBag.Title = "ListTicket";
-                var data = ViewBag.Data; }
+﻿@{
+    ViewBag.Title = "ListTicket";
+    var data = ViewBag.Data;
+}
 
 <!DOCTYPE html>
 <html>
@@ -199,7 +201,7 @@
     </style>
 </body>
 <div class="text-center">
-    <h2 style="font-size:30px;"><b>Laporan Pertanggung Jawaban</b></h2>
+    <h2 style="font-size:30px;"><b>Program Kerja</b></h2>
 </div>
 <div class="col-lg-8 pb-5">
     <div class="row">
@@ -212,69 +214,35 @@
     <table class="table table-hover mb-0" id="myTable" style="width:150%">
         <thead>
             <tr>
+                <th>ProkerID</th>
                 <th>Nama Proker</th>
-                <th>Tanggal Pengajuan Dana</th>
-                <th>Dana Pengajuan</th>
-                <th>Dana Persetujuan</th>
-                <th>Status Pengumpulan Online</th>
-                <th>Status Pengumpulan Offline</th>
-                <th>Tanggal Akhir Pengumpulan/DeadLine</th>
-                <th>Keterangan</th>
+                <th>Dana Pemasukan</th>
+                <th>Dana Pengeluaran</th>
+                <th>Lampiran Dokumen</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in @data)
             {
-            <tr>
-                <td>@item.NamaProgramKerja</td>
-                <td>@item.TanggalPengajuanDana </td>
-                <td><span>@item.DanaPengajuan </span></td>
-                <td><span>@item.DanaPersetujuan </span></td>
-                @if (item.IsLpj == "False")
-                {
-            <td><span class="badge badge-primary m-0">Belum Mengumpulkan LPJ Online</span></td> }
-                            else if (item.StatusKumpulOnline == "0")
-                            {
-            <td><span>Menunggu Verifikasi BEM U</span></td> }
-                            else if (item.StatusKumpulOnline == "1")
-                            {
-            <td><span>Pengumpulan LPJ Diterima</span></td> }
-                            else if (item.StatusKumpulOnline == "8")
-                            {
-            <td><span>LPJ Di Tolak</span></td>
-}
+        <tr>
 
+            <td>@item.ProkerID</td>
+            <td>@item.NamaProgramKerja</td>
+            <td><span>@item.DanaPemasukan</span></td>
+            <td><span>@item.DanaPengeluaran</span></td>
+            <td><a href="~/File/@Path.GetFileName(@item.FileName)">@Path.GetFileName(@item.FileName)</a></td>
+            <td><a href="https://localhost:44306/Form/GetDetailVerifikasiLPJ?ID=@item.ProkerID">Verifikasi</a></td>
 
-
-                @if (item.StatusKumpulOffline == "0")
-                {
-            <td><span>Belum Mengumpulkan LPJ Offline</span></td> }
-                            else if (item.StatusKumpulOffline == "1")
-                            {
-            <td><span>LPJ Diterima </span></td>}
-
-                <td><span>@item.Deadline </span></td>
-                <td><span>@item.Keterangan </span></td>
-
-                @if (item.IsLpj == "False" && item.IsDeadline != "1")
-                {
-            <td><a href="https://localhost:44306/Form/AddLpj?ID=@item.ProkerID">Kumpul LPJ</a></td>
-}
-        else if(item.IsDeadline == "1")
-        {
-            <td>Waktu Habis!</td>
-}
-                
-            </tr>}
-
-        </tbody>
+        </tr>
+        }
+                    </tbody>
     </table>
 </div>
 <script>function getSomeStringValue(ID) {
         var input = ID
         window.location.href = 'https://localhost:44306/Form/GetTicketById' + '?ID=' + input;
     }
-        function myFunction() {
+    function myFunction() {
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("myInput");
         filter = input.value.toUpperCase();
@@ -282,14 +250,14 @@
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
-        if (td) {
-            txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-                    } else {
-            tr[i].style.display = "none";
-                    }
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
                 }
             }
-        }</script>
+        }
+    }</script>
 </html>

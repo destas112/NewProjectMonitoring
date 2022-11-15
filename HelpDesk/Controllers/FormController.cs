@@ -39,7 +39,7 @@ namespace HelpDesk.Controllers
             dt.Email = model.Email;
             dt.DanaPengajuan = model.DanaPengajuan;
             dt.DanaPersetujuan = "";
-            dt.Status = "Belum Di Verifikasi";
+            dt.Status = "";
             dt.PIC = "";
             dt.CreatedDate = model.TanggalPelaksanaan;
             dt.FinishDate = model.TanggalAkhir;
@@ -72,8 +72,8 @@ namespace HelpDesk.Controllers
             dtLpj.IDPertanggungJawaban = IDLpj;
             dtLpj.IDPengajuanDana = IDPengajuan;
             dtLpj.IDProker = ID;
-            dtLpj.StatusKumpulOnline = "0";
-            dtLpj.StatusKumpulOffline = "0";
+            dtLpj.StatusKumpulOnline = "";
+            dtLpj.StatusKumpulOffline = "";
             dtLpj.Insert("");
 
 
@@ -160,7 +160,7 @@ namespace HelpDesk.Controllers
             return View("DetailPengajuanDana");
         }
 
-        public ActionResult DaftarVerifikasi()
+        public ActionResult DaftarVerifikasiPengajuan()
         {
 
             List<PengajuanDana> model = new List<PengajuanDana>();
@@ -231,6 +231,7 @@ namespace HelpDesk.Controllers
             DtPengajuan.Status = model.Status;
             DtPengajuan.Keterangan = model.Keterangan;
             DtPengajuan.TanggalProses = DateTime.Now;
+            DtPengajuan.IsLPJ = false;
             DtPengajuan.Update("");
 
             DtProker.Status = model.Status;
@@ -242,7 +243,7 @@ namespace HelpDesk.Controllers
         public ActionResult GetDataLPJLK(string pic)
         {
             List<PertanggungJawabanModel> Result = new List<PertanggungJawabanModel>();
-            var data = ProgramKerja.GetForListLPJ(pic).OrderByDescending(x => x.CreatedDate);
+            var data = ProgramKerja.GetForListLPJ(pic).OrderByDescending(x => x.CreatedDate).ToList();
             //model = data;
             
             foreach (var item in data)
@@ -250,6 +251,7 @@ namespace HelpDesk.Controllers
                 PertanggungJawabanModel model = new PertanggungJawabanModel();
                 var dtPengajuan = PengajuanDana.GetByProkerID(item.ProkerID);
                 var dt = PertanggungJawaban.GetByProkerID(item.ProkerID);
+                DateTime taggalDeadline = dtPengajuan.TanggalPengajuan.GetValueOrDefault().AddDays(30);
                model.ProkerID = dt.IDProker;
                 model.NamaProgramKerja = dtPengajuan.NamaProker;
                 model.IsLpj = dtPengajuan.IsLPJ.ToString();
@@ -261,10 +263,130 @@ namespace HelpDesk.Controllers
                 model.DanaPengajuan = dtPengajuan.DanaPengajuan;
                 model.DanaPersetujuan = dtPengajuan.DanaPersetujuan;
                 model.Keterangan = string.IsNullOrEmpty(dt.Keterangan) ?"" : dt.Keterangan;
+                model.IsDeadline =  DateTime.Now > taggalDeadline ? "1" : "";
+                Result.Add(model);
             }
             ViewBag.Data = Result;
             return View("ListLPJLK");
         }
+        public ActionResult AddLpj(string ID)
+        {
+
+            PengajuanDana model = new PengajuanDana();
+            var data = PengajuanDana.GetByProkerID(ID);
+            model = data;
+            ViewBag.Data = model;
+
+            return View("FormTambahLPJ");
+        }
+        public ActionResult TambahLpj(LPJModel model)
+        {
+            PertanggungJawaban dt = PertanggungJawaban.GetByProkerID(model.IDProker);
+            PengajuanDana dtPengajuan = PengajuanDana.GetByProkerID(model.IDProker);
+            dtPengajuan.IsLPJ = true;
+            dtPengajuan.Update("");
+
+
+            dt.DanaPemasukan = model.DanaPemasukan;
+            dt.DanaPengeluaran = model.DanaPengeluaran;
+            dt.PesertaTerealisasi = model.PesertaTerealisasi;
+            dt.StatusKumpulOnline = "0";
+            dt.StatusKumpulOffline = "0";
+
+            if (model.File != null)
+            {
+                //proses nyimpen gambar ke dlm folder
+                string filepath = "";
+                filepath = Server.MapPath("~/File/");
+                filepath = filepath + Path.GetFileName(model.File.FileName);
+                model.File.SaveAs(filepath);
+                dt.File = filepath;
+            }
+            dt.Update("");
+            return View("SuksesGeneral");
+        }
+
+        public ActionResult DaftarVerifikasiLPJ()
+        {
+
+            List<PertanggungJawabanModel> model = new List<PertanggungJawabanModel>();
+            List<PengajuanDana> modelPengajuanDana = new List<PengajuanDana>();
+            var data = PertanggungJawaban.GetbyStatus("0").ToList();
+            foreach (var item in data)
+            {
+                PertanggungJawabanModel dtModel = new PertanggungJawabanModel();
+                var dt = PengajuanDana.GetByProkerID(item.IDProker);
+                dtModel.DanaPemasukan = item.DanaPemasukan;
+                dtModel.DanaPengeluaran = item.DanaPengeluaran;
+                dtModel.NamaProgramKerja = dt.NamaProker;
+                dtModel.ProkerID = item.IDProker;
+                dtModel.FileName = item.File;
+                model.Add(dtModel);
+                modelPengajuanDana.Add(dt);
+            }
+            ViewBag.Data = model;
+            return View("DaftarVerifikasiLPJ");
+        }
+
+        public ActionResult GetDetailVerifikasiLPJ(string ID)
+        {
+
+            PertanggungJawaban model = new PertanggungJawaban();
+            var data = PertanggungJawaban.GetByProkerID(ID);
+            var dataProker = ProgramKerja.GetByID(ID);
+            model = data;
+            ViewBag.Data = model;
+            ViewBag.DataNamaProker = dataProker.NamaProker;
+
+
+            return View("DetailVerifikasiLPJ");
+        }
+
+        public ActionResult VerifikasiLPJ(PertanggungJawaban model)
+        {
+            PertanggungJawaban DtLPJ = PertanggungJawaban.GetByProkerID(model.IDProker);
+            DtLPJ.StatusKumpulOnline = model.StatusKumpulOnline;
+            DtLPJ.Keterangan = model.Keterangan;
+            DtLPJ.Update("");
+            return View("Sukses");
+        }
+
+        public ActionResult AllLPJ()
+        {
+            List<PertanggungJawabanModel> model = new List<PertanggungJawabanModel>();
+            var data = PertanggungJawaban.GetByAllForBiro().ToList();
+            foreach (var item in data)
+            {
+                PertanggungJawabanModel dtModel = new PertanggungJawabanModel();
+                var dt = PengajuanDana.GetByProkerID(item.IDProker);
+                var dt1 = ProgramKerja.GetByID(item.IDProker);
+                dtModel.IDPengajuanDana = item.IDPengajuanDana;
+                dtModel.DanaPemasukan = item.DanaPemasukan;
+                dtModel.DanaPengeluaran = item.DanaPengeluaran;
+                dtModel.NamaProgramKerja = dt.NamaProker;
+                dtModel.StatusKumpulOffline = item.StatusKumpulOffline;
+                dtModel.StatusKumpulOnline = item.StatusKumpulOnline;
+                dtModel.ProkerID = item.IDProker;
+                dtModel.FileName = item.File;
+                dtModel.NamaLK = dt1.NamaProker;
+                model.Add(dtModel);
+               
+            }
+            ViewBag.Data = model;
+            ViewBag.Data = model;
+            return View("LpjBiro");
+        }
+
+        public ActionResult VerifikasiLpjOffline(string ID)
+        {
+           
+            PertanggungJawaban DtLPJ = PertanggungJawaban.GetByProkerID(ID);
+            DtLPJ.StatusKumpulOffline = "1";
+            DtLPJ.Update("");
+            return View("Sukses");
+        }
+
+
 
 
         //[HttpGet]
