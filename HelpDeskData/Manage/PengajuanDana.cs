@@ -43,6 +43,10 @@ namespace HelpDeskData
         {
             return CurrentDataContext.CurrentContext.PengajuanDanas.FirstOrDefault(x => x.IDProker == ID);
         }
+        public static IQueryable<PengajuanDana> GetByAllBiro()
+        {
+            return CurrentDataContext.CurrentContext.PengajuanDanas.Where(x => !x.IsDelete && x.Status != "0" && x.Status != "" && x.Status != null);
+        }
 
 
 

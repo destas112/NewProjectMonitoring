@@ -218,19 +218,23 @@
                 <th>Nama Proker</th>
                 <th>Dana Pengajuan</th>
                 <th>Dana Persetujuan</th>
+                <th>Tanggal Mulai Terealisasi</th>
+                <th>Tanggal Akhir Terealisasi</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in @data)
             {
             <tr>
-              
+
                 <td>@item.IDPengajuan</td>
                 <td>@item.NamaProker</td>
                 <td><span>@item.DanaPengajuan</span></td>
                 <td><span>@item.DanaPersetujuan</span></td>
+                <td><span>@item.TanggalTerealisasi</span></td>
+                <td><span>@item.TanggalAkhirTerealisasi</span></td>
                 <td><a href="https://localhost:44306/Form/GetDetailVerifikasi?ID=@item.IDPengajuan">Verifikasi</a></td>
-              
+
             </tr>
             }
         </tbody>

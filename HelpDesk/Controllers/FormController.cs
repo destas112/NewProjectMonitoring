@@ -142,7 +142,7 @@ namespace HelpDesk.Controllers
         public ActionResult AllPengajuanDana()
         {
             List<PengajuanDana> model = new List<PengajuanDana>();
-            var data = PengajuanDana.GetByAll().ToList();
+            var data = PengajuanDana.GetByAllBiro().ToList();
             model = data;
             ViewBag.Data = model;
             return View("ListTicketAll");

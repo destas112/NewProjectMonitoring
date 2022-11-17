@@ -1,5 +1,5 @@
 ﻿@{ ViewBag.Title = "ListTicket";
-                var data = ViewBag.Data; }
+    var data = ViewBag.Data; }
 
 <!DOCTYPE html>
 <html>
@@ -232,49 +232,60 @@
                 <td><span>@item.DanaPersetujuan </span></td>
                 @if (item.IsLpj == "False")
                 {
-            <td><span class="badge badge-primary m-0">Belum Mengumpulkan LPJ Online</span></td> }
-                            else if (item.StatusKumpulOnline == "0")
-                            {
-            <td><span>Menunggu Verifikasi BEM U</span></td> }
-                            else if (item.StatusKumpulOnline == "1")
-                            {
-            <td><span>Pengumpulan LPJ Diterima</span></td> }
-                            else if (item.StatusKumpulOnline == "8")
-                            {
-            <td><span>LPJ Di Tolak</span></td>
-}
-
-
-
-                @if (item.StatusKumpulOffline == "0")
+                    <td><span class="badge badge-primary m-0">Belum Mengumpulkan LPJ Online</span></td>
+                }
+                else if (item.StatusKumpulOnline == "0")
                 {
-            <td><span>Belum Mengumpulkan LPJ Offline</span></td> }
-                            else if (item.StatusKumpulOffline == "1")
-                            {
-            <td><span>LPJ Diterima </span></td>}
+                    <td><span>Menunggu Verifikasi BEM U</span></td>
+                }
+                else if (item.StatusKumpulOnline == "1")
+                {
+                    <td><span>Pengumpulan LPJ Diterima</span></td>
+                }
+                else if (item.StatusKumpulOnline == "8")
+                {
+                    <td><span>LPJ Di Tolak</span></td>
+                }
+
+
+
+                @if (item.StatusKumpulOffline != "1")
+                {
+                    <td><span>Belum Mengumpulkan LPJ Offline</span></td>
+                }
+                else if (item.StatusKumpulOffline == "1")
+                {
+                    <td><span>LPJ Diterima </span></td>
+                }
 
                 <td><span>@item.Deadline </span></td>
                 <td><span>@item.Keterangan </span></td>
 
                 @if (item.IsLpj == "False" && item.IsDeadline != "1")
                 {
-            <td><a href="https://localhost:44306/Form/AddLpj?ID=@item.ProkerID">Kumpul LPJ</a></td>
+                    <td><a href="https://localhost:44306/Form/AddLpj?ID=@item.ProkerID">Kumpul LPJ</a></td>
+                }
+                else if (item.StatusKumpulOnline == "8")
+                {
+            <td><a href="https://localhost:44306/Form/AddLpj?ID=@item.ProkerID">Kumpul Ulang</a></td>
+                }
+                else if (item.IsDeadline == "1")
+                {
+                    <td>Waktu Habis!</td>
+                }
+
+            </tr>
 }
-        else if(item.IsDeadline == "1")
-        {
-            <td>Waktu Habis!</td>
-}
-                
-            </tr>}
 
         </tbody>
     </table>
 </div>
-<script>function getSomeStringValue(ID) {
+<script>
+    function getSomeStringValue(ID) {
         var input = ID
         window.location.href = 'https://localhost:44306/Form/GetTicketById' + '?ID=' + input;
     }
-        function myFunction() {
+    function myFunction() {
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("myInput");
         filter = input.value.toUpperCase();
@@ -282,14 +293,14 @@
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
-        if (td) {
-            txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-                    } else {
-            tr[i].style.display = "none";
-                    }
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
                 }
             }
-        }</script>
+        }
+    }</script>
 </html>

@@ -231,15 +231,18 @@
                 <td><span>@item.DanaPengeluaran</span></td>
                 <td><a href="~/File/@Path.GetFileName(item.FileName)">@Path.GetFileName(item.FileName)</a></td>
 
-                @if (item.StatusKumpulOffline == "0")
+                @if (item.StatusKumpulOffline == "1")
                 {
-            <td><span>Belum Mengumpulkan LPJ Offline</span></td> }
-                            else if (item.StatusKumpulOffline == "1")
-                            {
-            <td><span>LPJ Diterima </span></td>}
-                <td><a href="https://localhost:44306/Form/VerifikasiLpjOffline?ID=@item.ProkerID">Verifikasi Kumpul Offline</a></td>
+            <td><span>LPJ Offline Diterima</span></td>
+ }
+        else if (item.StatusKumpulOffline == "0")
+        {
+            <td><span>LPJ Offline Belum Dikumpulkan </span></td>
+                                <td><a href="https://localhost:44306/Form/VerifikasiLpjOffline?ID=@item.ProkerID">Verifikasi Kumpul Offline</a></td>}
 
-            </tr>            }
+
+            </tr>          
+            }
         </tbody>
     </table>
 </div>
