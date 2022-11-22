@@ -101,6 +101,7 @@ namespace HelpDesk.Controllers
         public ActionResult InsertDataPengajuanDana(PengajuanDanaModel model)
         {
             string ID = GenerateID();
+            var dtUser = HelpDeskData.User.GetByID("BADSADW");
             HelpDeskData.PengajuanDana dt = PengajuanDana.GetByProkerID(model.ProkerID); //langsung deklarasi model 1 tabel ticket(1 row)
             HelpDeskData.ProgramKerja dtProker = ProgramKerja.GetByID(model.ProkerID);
           //  dt.IDPengajuan = ID;
@@ -134,7 +135,7 @@ namespace HelpDesk.Controllers
             dt.Status = "0";
             dt.Update("");// 
             ViewBag.ID = ID;
-            // var email = SendEmailKonfirmationUser(model.Email,ID);
+            var email = SendEmailPengajuan(dtUser.Email, dtProker.NamaProker);
             return View("SuksesGeneral");
         }
 
@@ -185,6 +186,7 @@ namespace HelpDesk.Controllers
 
         public ActionResult Verifikasi(PengajuanDana model)
         {
+            var dtUser = HelpDeskData.User.GetByID("VLFHGPU");
             PengajuanDana DtPengajuan = PengajuanDana.GetByID(model.IDPengajuan);
             ProgramKerja DtProker = ProgramKerja.GetByID(DtPengajuan.IDProker);
             DtPengajuan.Status = "1";
@@ -193,6 +195,7 @@ namespace HelpDesk.Controllers
 
             DtProker.Status = "1";
             DtProker.Update("");
+            var email = SendEmailPengajuanToBiro(dtUser.Email, DtProker.NamaProker);
             return View("Sukses");
         }
 
@@ -386,7 +389,53 @@ namespace HelpDesk.Controllers
             return View("Sukses");
         }
 
+        public static string SendEmailPengajuan(string EmailTo, string Proker)
+        {
+            string body = "Pengajuan dana program kerja " + Proker + " diterima mohon untuk diverifikasi dana terealisasi";
 
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.gmail.com";
+            client.Port = 587;
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            var credentials = new System.Net.NetworkCredential("sipenaukdw@gmail.com", "ebljupbkwfxcutqu");
+            client.Credentials = credentials;
+            client.TargetName = "STARTTLS/smtp.gmail.com";
+
+            var msg = new MailMessage();
+            msg.From = new MailAddress("sipenaukdw@gmail.com");
+            msg.To.Add(EmailTo);
+            msg.Subject = "Verifikasi Pengajuan Dana";
+            msg.Body = body;
+            msg.IsBodyHtml = true;
+            client.Send(msg);
+
+            return "";
+        }
+
+        public static string SendEmailPengajuanToBiro(string EmailTo, string Proker)
+        {
+            string body = "Pengajuan dana baru dengan proker " + Proker;
+
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.gmail.com";
+            client.Port = 587;
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            var credentials = new System.Net.NetworkCredential("sipenaukdw@gmail.com", "ebljupbkwfxcutqu");
+            client.Credentials = credentials;
+            client.TargetName = "STARTTLS/smtp.gmail.com";
+
+            var msg = new MailMessage();
+            msg.From = new MailAddress("sipenaukdw@gmail.com");
+            msg.To.Add(EmailTo);
+            msg.Subject = "Verifikasi Pengajuan Dana";
+            msg.Body = body;
+            msg.IsBodyHtml = true;
+            client.Send(msg);
+
+            return "";
+        }
 
 
         //[HttpGet]
