@@ -41,5 +41,17 @@ namespace HelpDeskData
             return CurrentDataContext.CurrentContext.PertanggungJawabans.Where(x => x.StatusKumpulOnline == "1");
         }
 
+
+        public static IQueryable<PertanggungJawaban> GetSummary()
+        {
+            return CurrentDataContext.CurrentContext.PertanggungJawabans.Where(x => x.StatusKumpulOffline == "1");
+        }
+
+        public static IQueryable<PertanggungJawaban> GetSummaryTahun(string Tahun)
+        {
+            return CurrentDataContext.CurrentContext.PertanggungJawabans.Where(x => x.StatusKumpulOffline == "1");
+        }
+
+
     }
 }

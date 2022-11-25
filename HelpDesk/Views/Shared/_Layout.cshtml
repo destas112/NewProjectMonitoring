@@ -81,20 +81,21 @@
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Tambah Proker</span>
             </a>
-        </li> }@*<li class="nav-item active">
-                    <a class="nav-link" href="https://localhost:44306/Form/SearchTicket">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Search Ticket</span>
-                    </a>
-                </li> @if (Role == "1") //User
-                                {
-                <li class="nav-item active">
-                    <a class="nav-link" href="https://localhost:44306/Form/AllTicketUser?nama=@pic">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Daftar Pengajuan Dana LK</span>
+        </li>
+ }@*<li class="nav-item active">
+        <a class="nav-link" href="https://localhost:44306/Form/SearchTicket">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Search Ticket</span>
+        </a>
+    </li> @if (Role == "1") //User
+                    {
+    <li class="nav-item active">
+        <a class="nav-link" href="https://localhost:44306/Form/AllTicketUser?nama=@pic">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Daftar Pengajuan Dana LK</span>
 
-                    </a>
-                </li>}*@
+        </a>
+    </li>}*@
 
             @if (Role == "2" || Role == "3") //staff
             {
@@ -110,60 +111,66 @@
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
                                 <span>Pengumpulan LPJ </span>
                             </a>
-                        </li> if (Role == "2") //staff
-                {
+                        </li>
+ if (Role == "2") //staff
+                        {
 
+
+        <li class="nav-item active">
+            <a class="nav-link" href="https://localhost:44306/Form/DaftarVerifikasiPengajuan">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Verifikasi Pengajuan Dana </span>
+            </a>
+        </li>
+
+
+                            <li class="nav-item active">
+                                <a class="nav-link" href="https://localhost:44306/Form/DaftarVerifikasiLPJ">
+                                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                                    <span>Verifikasi Laporan Pertanggung Jawaban </span>
+                                </a>
+                            </li>
+}
+                    }
+            @if (Role == "1") //Admin
+            {
+        <li class="nav-item active">
+            <a class="nav-link" href="https://localhost:44306/Form/AllPengajuanDana">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Pengajuan Dana</span>
+            </a>
+        </li>
 
                         <li class="nav-item active">
-                            <a class="nav-link" href="https://localhost:44306/Form/DaftarVerifikasiPengajuan">
+                            <a class="nav-link" href="https://localhost:44306/Form/AllLPJ">
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                                <span>Verifikasi Pengajuan Dana </span>
+                                <span>Pertanggung Jawaban</span>
                             </a>
                         </li>
-
-
-                                            <li class="nav-item active">
-                                                <a class="nav-link" href="https://localhost:44306/Form/DaftarVerifikasiLPJ">
-                                                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                                                    <span>Verifikasi Laporan Pertanggung Jawaban </span>
-                                                </a>
-                                            </li> }
-            }
-                                                            @if (Role == "1") //Admin
-                                                            {
-                                            <li class="nav-item active">
-                                                <a class="nav-link" href="https://localhost:44306/Form/AllPengajuanDana">
-                                                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                                                    <span>Pengajuan Dana</span>
-                                                </a>
-                                            </li>
-
-                                                                <li class="nav-item active">
-                                                                    <a class="nav-link" href="https://localhost:44306/Form/AllLPJ">
-                                                                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                                                                        <span>Pertanggung Jawaban</span>
-                                                                    </a>
-                                                                </li>
-                                                                                    <li class="nav-item active">
-                                                                                        <a class="nav-link" href="https://localhost:44306/User/ManageStaffAccount">
-                                                                                            <i class="fas fa-fw fa-tachometer-alt"></i>
-                                                                                            <span>Kelola Akun LK</span>
-                                                                                        </a>
-                                                                                    </li>
-                                                                                                        @*<li class="nav-item active">
-                                                                                                            <a class="nav-link" href="https://localhost:44306/Form/OpenExportReport">
-                                                                                                                <i class="fas fa-fw fa-tachometer-alt"></i>
-                                                                                                                <span>Export Report</span>
-                                                                                                            </a>
-                                                                                                        </li>*@
-}
-                                                                            <hr class="sidebar-divider d-none d-md-block">
- <!-- Sidebar Toggler (Sidebar) -->
-                                                                                            <div class="text-center d-none d-md-inline">
-                                                                                                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                                                                                            </div>
- <!-- Sidebar Message -->
-                                                                                                        </ul>
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="https://localhost:44306/User/ManageStaffAccount">
+                                                <i class="fas fa-fw fa-tachometer-alt"></i>
+                                                <span>Kelola Akun LK</span>
+                                            </a>
+                                        </li>
+                                                        <li class="nav-item active">
+                                                            <a class="nav-link" href="https://localhost:44306/Form/Summary">
+                                                                <i class="fas fa-fw fa-tachometer-alt"></i>
+                                                                <span>Riwayat</span>
+                                                            </a>
+                                                        </li> @*<li class="nav-item active">
+                                                                        <a class="nav-link" href="https://localhost:44306/Form/OpenExportReport">
+                                                                            <i class="fas fa-fw fa-tachometer-alt"></i>
+                                                                            <span>Export Report</span>
+                                                                        </a>
+                                                                    </li>*@}
+            <hr class="sidebar-divider d-none d-md-block">
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+            <!-- Sidebar Message -->
+        </ul>
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">

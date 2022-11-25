@@ -2062,6 +2062,7 @@
     <None Include="Views\Shared\register.cshtml" />
     <None Include="Views\Shared\Sukses.cshtml" />
     <Content Include="Views\Shared\SuksesGeneral.cshtml" />
+    <Content Include="Views\Shared\Summary.cshtml" />
     <None Include="Views\Shared\WelcomePage.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

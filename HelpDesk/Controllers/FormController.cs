@@ -26,7 +26,8 @@ namespace HelpDesk.Controllers
         [HttpPost]
         public ActionResult InsertDataForm(ProkerModel model)
         {
-            string ID = GenerateID();
+            var dtUser = HelpDeskData.User.GetByName(model.Nama);
+            string ID = GenerateIDProker(dtUser.ID);
             
 
             HelpDeskData.ProgramKerja dt = new HelpDeskData.ProgramKerja(); //langsung deklarasi model 1 tabel ticket(1 row)
@@ -101,7 +102,7 @@ namespace HelpDesk.Controllers
         public ActionResult InsertDataPengajuanDana(PengajuanDanaModel model)
         {
             string ID = GenerateID();
-            var dtUser = HelpDeskData.User.GetByID("BADSADW");
+            var dtUser = HelpDeskData.User.GetByID("1100");
             HelpDeskData.PengajuanDana dt = PengajuanDana.GetByProkerID(model.ProkerID); //langsung deklarasi model 1 tabel ticket(1 row)
             HelpDeskData.ProgramKerja dtProker = ProgramKerja.GetByID(model.ProkerID);
           //  dt.IDPengajuan = ID;
@@ -186,7 +187,7 @@ namespace HelpDesk.Controllers
 
         public ActionResult Verifikasi(PengajuanDana model)
         {
-            var dtUser = HelpDeskData.User.GetByID("VLFHGPU");
+            var dtUser = HelpDeskData.User.GetByID("1000");
             PengajuanDana DtPengajuan = PengajuanDana.GetByID(model.IDPengajuan);
             ProgramKerja DtProker = ProgramKerja.GetByID(DtPengajuan.IDProker);
             DtPengajuan.Status = "1";
@@ -435,6 +436,33 @@ namespace HelpDesk.Controllers
             client.Send(msg);
 
             return "";
+        }
+        public ActionResult Summary()
+        {
+            List<PertanggungJawabanModel> model = new List<PertanggungJawabanModel>();
+            var data = PertanggungJawaban.GetSummary().ToList();
+            foreach (var item in data)
+            {
+                PertanggungJawabanModel dtModel = new PertanggungJawabanModel();
+                var dt = PengajuanDana.GetByProkerID(item.IDProker);
+                var dt1 = ProgramKerja.GetByID(item.IDProker);
+                dtModel.IDPengajuanDana = item.IDPengajuanDana;
+                dtModel.DanaPemasukan = item.DanaPemasukan;
+                dtModel.DanaPengeluaran = item.DanaPengeluaran;
+                dtModel.NamaProgramKerja = dt1.NamaProker;
+                dtModel.StatusKumpulOffline = item.StatusKumpulOffline;
+                dtModel.StatusKumpulOnline = item.StatusKumpulOnline;
+                dtModel.Peserta = item.PesertaTerealisasi;
+                dtModel.ProkerID = item.IDProker;
+                dtModel.FileName = item.File;
+                dtModel.NamaLK = dt1.NamaLK;
+                dtModel.TanggalTerealisasi = dt.TanggalAkhirTerealisasi.GetValueOrDefault().ToString("MM/dd/yyyy");
+                model.Add(dtModel);
+
+            }
+            ViewBag.Data = model;
+            ViewBag.Data = model;
+            return View("Summary");
         }
 
 
@@ -817,7 +845,13 @@ namespace HelpDesk.Controllers
             }
             return str_build.ToString();
         }
-
+        public static string GenerateIDProker(string KodeLK)
+        {
+            Random random = new Random();
+            int number = random.Next(1,100);
+            string build = KodeLK + "22" + number;
+            return build;
+        }
         //[HttpGet]
         //public ActionResult AllTicketUser(string nama)
         //{

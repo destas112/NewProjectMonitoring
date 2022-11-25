@@ -23,6 +23,7 @@ namespace HelpDesk.Models
     public class ProkerModel
     {
         public string ID { get; set; }
+        public string LK { get; set; }
         public string Nama { get; set; }
         public string Proker { get; set; }
         public string Email { get; set; }
@@ -113,12 +114,13 @@ namespace HelpDesk.Models
         public string Deadline { get; set; }
         public string TanggalPengumpulan { get; set; }
         public string TanggalPengajuanDana { get; set; }
+        public string TanggalTerealisasi{ get; set; }
         public string Keterangan { get; set; }
         public string DanaPengajuan { get; set; }
         public string DanaPersetujuan { get; set; }
         public string DanaPemasukan { get; set; }
         public string DanaPengeluaran { get; set; }
-
+        public string Peserta { get; set; }
         public string IsDeadline { get; set; }
 
         public string FileName { get; set; }
