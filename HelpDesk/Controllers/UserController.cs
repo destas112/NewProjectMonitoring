@@ -84,7 +84,7 @@ namespace HelpDesk.Controllers
         public ActionResult ManageStaffAccount()
         {
             List<ParamUser> model = new List<ParamUser>();
-            var data = HelpDeskData.User.GetByRole(2);
+            var data = HelpDeskData.User.GetAll();
             foreach (var item in data)
             {
                 ParamUser dt = new ParamUser();

@@ -2016,6 +2016,7 @@
     <Content Include="Assets\vendor\jquery\jquery.min.map" />
     <Content Include="Assets\vendor\jquery\jquery.slim.min.map" />
     <Content Include="Views\Shared\AllTicketUser.cshtml" />
+    <Content Include="Views\Shared\ChartLK.cshtml" />
     <None Include="Views\Shared\Dasboard.cshtml" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -2060,6 +2061,7 @@
     <Content Include="Views\Shared\ManageStaffAccount.cshtml" />
     <Content Include="Views\Shared\LpjBiro.cshtml" />
     <None Include="Views\Shared\register.cshtml" />
+    <Content Include="Views\Shared\RiwayatLK.cshtml" />
     <None Include="Views\Shared\Sukses.cshtml" />
     <Content Include="Views\Shared\SuksesGeneral.cshtml" />
     <Content Include="Views\Shared\Summary.cshtml" />

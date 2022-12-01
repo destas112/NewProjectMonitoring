@@ -31,9 +31,21 @@ namespace HelpDesk.Models
         public string NoHp { get; set; }
         public string Kategori { get; set; }
         public string DanaPengajuan { get; set; }
+
+
+        public string Administrasi { get; set; }
+        public string Akomodasi { get; set; }
+        public string Trasnportasi { get; set; }
+        public string Konsumsi { get; set; }
+        public string Pembicara { get; set; }
+        public string Hadiah { get; set; }
+        public string Souvernir { get; set; }
+
+
         public string DanaPersetujuan { get; set; }
         public string Status { get; set; }
         public string Target { get; set; }
+        public string TargetJumlah { get; set; }
         public DateTime TanggalPelaksanaan { get; set; }
         public DateTime TanggalAkhir { get; set; }
         public HttpPostedFileBase File { get; set; }
@@ -125,6 +137,10 @@ namespace HelpDesk.Models
 
         public string FileName { get; set; }
 
+        public string KeteranganPeserta { get; set; }
+
+        public string KeteranganWaktu { get; set; }
+
         public HttpPostedFileBase File { get; set; }
     }
 
@@ -135,6 +151,16 @@ namespace HelpDesk.Models
         public string DanaPengeluaran { get; set; }
         public string PesertaTerealisasi { get; set; }
         public HttpPostedFileBase File { get; set; }
+    }
+
+    public class ChartModelLK
+    {
+        public string IDProker { get; set; }
+        public string NamaProker { get; set; }
+        public int DanaPemasukan { get; set; }
+        public int DanaPengeluaran { get; set; }
+        public int PesertaTerealisasi { get; set; }
+        public int TargetPeserta { get; set; }
     }
 
 

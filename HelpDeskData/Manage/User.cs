@@ -39,6 +39,11 @@ namespace HelpDeskData
             ExtentionTransaction.Updated(this);
         }
 
+        public static IQueryable<User> GetAll()
+        {
+            return CurrentDataContext.CurrentContext.Users.Where(x => !x.IsDelete);
+        }
+
 
     }
    

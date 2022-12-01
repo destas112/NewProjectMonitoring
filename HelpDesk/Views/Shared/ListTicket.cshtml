@@ -214,13 +214,13 @@
                 <td><span class="badge badge-primary m-0">Belum Melakukan Pengajuan Dana</span></td>}
                     @if (item.Status == "0")
                     {
-                <td><span>Menunggu Verifikasi BEM U</span></td>}
+                <td><span class="badge badge-secondary">Menunggu Verifikasi BEM U</span></td>}
                     @if (item.Status == "1")
                     {
                 <td><span>Menunggu Antrian Biro</span></td>}
                     @if (item.Status == "2")
                     {
-                <td><span>Pengajuan Di Proses</span></td>
+                <td><span class="badge badge-success">Pengajuan Di Proses</span></td>
                     }
                     @if (item.StatusPengajuan == "False")
                     {

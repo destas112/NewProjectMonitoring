@@ -70,6 +70,7 @@ webGrid.Column(header: "Description", format: @<span>
 webGrid.Column(format:@<span class="link">
     <a class="Edit" href="javascript:;">Edit</a>
     <a class="Delete" href="javascript:;">Delete</a>
+    <a class="Riwayat" href="https://localhost:44306/Form/CekRiwayat?Nama=@item.Nama">Riwayat</a>
     <a class="Update" href="javascript:;" style="display:none">Update</a>
     <a class="Cancel" href="javascript:;" style="display:none">Cancel</a>
 </span>)))
@@ -161,6 +162,37 @@ webGrid.Column(format:@<span class="link">
             $.ajax({
                 type: "POST",
                 url: "/User/DeleteDataStaff",
+                data: JSON.stringify(Ticket),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            });
+        });
+
+        //Delete event handler.
+        $("body").on("click", "#WebGrid TBODY .Riwayat", function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".label");
+                    var input = $(this).find(".text");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".Edit").hide();
+            row.find(".Update").hide();
+            $(this).hide();
+            var Ticket = {};
+            Ticket.ID = row.find(".ID").find(".label").html();
+            Ticket.Nama = row.find(".Nama").find(".label").html();
+            Ticket.Email = row.find(".Email").find(".label").html();
+            Ticket.Password = row.find(".Password").find(".label").html();
+            Ticket.Keterangan = row.find(".Keterangan").find(".label").html();
+            $.ajax({
+                type: "POST",
+                url: "/Form/CekRiwayat",
                 data: JSON.stringify(Ticket),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",

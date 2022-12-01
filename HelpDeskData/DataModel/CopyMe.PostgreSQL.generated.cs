@@ -108,26 +108,34 @@ namespace HelpDeskData
 	[Table(Schema="public", Name="ProgramKerja")]
 	public partial class ProgramKerja
 	{
-		[PrimaryKey, NotNull    ] public string    ProkerID        { get; set; } // text
-		[Column,        Nullable] public string    NamaLK          { get; set; } // text
-		[Column,        Nullable] public string    Email           { get; set; } // text
-		[Column,        Nullable] public string    Kategori        { get; set; } // text
-		[Column,        Nullable] public string    DanaPengajuan   { get; set; } // text
-		[Column,        Nullable] public string    DanaPersetujuan { get; set; } // text
-		[Column,        Nullable] public string    PIC             { get; set; } // text
-		[Column,     NotNull    ] public bool      IsDelete        { get; set; } // boolean
-		[Column,        Nullable] public string    Status          { get; set; } // text
-		[Column,        Nullable] public DateTime? CreatedDate     { get; set; } // date
-		[Column,        Nullable] public DateTime? FinishDate      { get; set; } // date
-		[Column,        Nullable] public string    Category        { get; set; } // text
-		[Column,        Nullable] public string    Reply           { get; set; } // text
-		[Column,        Nullable] public string    FileName        { get; set; } // text
-		[Column,        Nullable] public string    ContactPerson   { get; set; } // text
-		[Column,        Nullable] public string    TargetPeserta   { get; set; } // text
-		[Column,        Nullable] public string    Keterangan      { get; set; } // text
-		[Column,        Nullable] public string    NamaProker      { get; set; } // text
-		[Column,        Nullable] public bool?     IsPengajuan     { get; set; } // boolean
-		[Column,        Nullable] public bool?     IsLPJ           { get; set; } // boolean
+		[PrimaryKey, NotNull    ] public string    ProkerID            { get; set; } // text
+		[Column,        Nullable] public string    NamaLK              { get; set; } // text
+		[Column,        Nullable] public string    Email               { get; set; } // text
+		[Column,        Nullable] public string    Kategori            { get; set; } // text
+		[Column,        Nullable] public string    DanaPengajuan       { get; set; } // text
+		[Column,        Nullable] public string    DanaPersetujuan     { get; set; } // text
+		[Column,        Nullable] public string    PIC                 { get; set; } // text
+		[Column,     NotNull    ] public bool      IsDelete            { get; set; } // boolean
+		[Column,        Nullable] public string    Status              { get; set; } // text
+		[Column,        Nullable] public DateTime? CreatedDate         { get; set; } // date
+		[Column,        Nullable] public DateTime? FinishDate          { get; set; } // date
+		[Column,        Nullable] public string    Category            { get; set; } // text
+		[Column,        Nullable] public string    Reply               { get; set; } // text
+		[Column,        Nullable] public string    FileName            { get; set; } // text
+		[Column,        Nullable] public string    ContactPerson       { get; set; } // text
+		[Column,        Nullable] public string    TargetPeserta       { get; set; } // text
+		[Column,        Nullable] public string    Keterangan          { get; set; } // text
+		[Column,        Nullable] public string    NamaProker          { get; set; } // text
+		[Column,        Nullable] public bool?     IsPengajuan         { get; set; } // boolean
+		[Column,        Nullable] public bool?     IsLPJ               { get; set; } // boolean
+		[Column,        Nullable] public string    TargetJumlahPeserta { get; set; } // text
+		[Column,        Nullable] public string    Administrasi        { get; set; } // text
+		[Column,        Nullable] public string    Akomodasi           { get; set; } // text
+		[Column,        Nullable] public string    Transportasi        { get; set; } // text
+		[Column,        Nullable] public string    Konsumsi            { get; set; } // text
+		[Column,        Nullable] public string    Pembicara           { get; set; } // text
+		[Column,        Nullable] public string    Hadiah              { get; set; } // text
+		[Column,        Nullable] public string    Souvernir           { get; set; } // text
 	}
 
 	[Table(Schema="public", Name="User")]

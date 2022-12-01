@@ -43,5 +43,10 @@ namespace HelpDeskData
             return CurrentDataContext.CurrentContext.ProgramKerjas.Where(x => x.NamaLK == pic && !x.IsDelete && x.Status == "3").OrderBy(x => x.CreatedDate);
 
         }
+        public static IQueryable<ProgramKerja> GetByNamaLK(string LK)
+        {
+            return CurrentDataContext.CurrentContext.ProgramKerjas.Where(x => x.NamaLK == LK);
+
+        }
     }
 }

@@ -39,6 +39,16 @@ namespace HelpDesk.Controllers
             dt.Category = model.Kategori;
             dt.Email = model.Email;
             dt.DanaPengajuan = model.DanaPengajuan;
+            ///////////////////////////////////////////
+
+            dt.Administrasi = model.Administrasi;
+            dt.Akomodasi = model.Akomodasi;
+            dt.Transportasi = model.Trasnportasi;
+            dt.Konsumsi = model.Konsumsi;
+            dt.Pembicara = model.Pembicara;
+            dt.Hadiah = model.Hadiah;
+            dt.Souvernir = model.Souvernir;
+
             dt.DanaPersetujuan = "";
             dt.Status = "";
             dt.PIC = "";
@@ -48,6 +58,7 @@ namespace HelpDesk.Controllers
             dt.ContactPerson = model.ContactPerson;
             dt.Keterangan = "";
             dt.IsPengajuan = false;
+            dt.TargetJumlahPeserta = model.TargetJumlah;
            // dt.Status = "0"
             if (model.File != null)
             {
@@ -94,7 +105,15 @@ namespace HelpDesk.Controllers
             ProgramKerja model = new ProgramKerja();
             var data = ProgramKerja.GetByID(ID);
             model = data;
+            double Modal = double.Parse(model.DanaPengajuan);
+            double totalPengeluaran = double.Parse(model.Administrasi) + double.Parse(model.Akomodasi) + double.Parse(model.Transportasi) + double.Parse(model.Konsumsi) + double.Parse(model.Pembicara) + double.Parse(model.Souvernir) + double.Parse(model.Hadiah);
+            decimal Presentase = decimal.Parse(((totalPengeluaran / Modal) * 100).ToString());
+          
+
             ViewBag.Data = model;
+            ViewBag.Modal = Modal;
+            ViewBag.Total = totalPengeluaran;
+            ViewBag.Presentase = Presentase;
 
             return View("FormPengajuan");
         }
@@ -181,7 +200,15 @@ namespace HelpDesk.Controllers
             model = data;
             ViewBag.Data = model;
             ViewBag.DataProker = dataproker;
+            //=================================================================
+            double Modal = double.Parse(model.DanaPengajuan);
+            double totalPengeluaran = double.Parse(dataproker.Administrasi) + double.Parse(dataproker.Akomodasi) + double.Parse(dataproker.Transportasi) + double.Parse(dataproker.Konsumsi) + double.Parse(dataproker.Pembicara) + double.Parse(dataproker.Souvernir) + double.Parse(dataproker.Hadiah);
+            decimal Presentase = decimal.Parse(((totalPengeluaran / Modal) * 100).ToString());
 
+
+            ViewBag.Modal = Modal;
+            ViewBag.Total = totalPengeluaran;
+            ViewBag.Presentase = Presentase;
             return View("DetailVerifikasi");
         }
 
@@ -463,6 +490,205 @@ namespace HelpDesk.Controllers
             ViewBag.Data = model;
             ViewBag.Data = model;
             return View("Summary");
+        }
+    
+        public ActionResult CekRiwayat(string Nama)
+        {
+            List<PertanggungJawabanModel> model = new List<PertanggungJawabanModel>();
+            var dataModel = ProgramKerja.GetByNamaLK(Nama).ToList();
+            if (dataModel.Count() > 0)
+            {
+                var data = PertanggungJawaban.GetSummary().ToList();
+                foreach (var item in data)
+                {
+                    PertanggungJawabanModel dtModel = new PertanggungJawabanModel();
+                    var dt = PengajuanDana.GetByProkerID(item.IDProker);
+                    var dt1 = ProgramKerja.GetByID(item.IDProker);
+                    var dt2 = PertanggungJawaban.GetByProkerID(item.IDProker);
+                    dtModel.IDPengajuanDana = item.IDPengajuanDana;
+                    dtModel.DanaPemasukan = item.DanaPemasukan;
+                    dtModel.DanaPengeluaran = item.DanaPengeluaran;
+                    dtModel.NamaProgramKerja = dt1.NamaProker;
+                    dtModel.StatusKumpulOffline = item.StatusKumpulOffline;
+                    dtModel.StatusKumpulOnline = item.StatusKumpulOnline;
+                    dtModel.Peserta = item.PesertaTerealisasi;
+                    dtModel.ProkerID = item.IDProker;
+                    dtModel.FileName = item.File;
+                    dtModel.NamaLK = dt1.NamaLK;
+                    dtModel.TanggalTerealisasi = dt.TanggalAkhirTerealisasi.GetValueOrDefault().ToString("MM/dd/yyyy");
+                    if (int.Parse(dt1.TargetJumlahPeserta) < int.Parse(dt2.PesertaTerealisasi))
+                    {
+                        dtModel.KeteranganPeserta = "Melebihi Target";
+                    
+                    }
+                    else if (int.Parse(dt1.TargetJumlahPeserta) == int.Parse(dt2.PesertaTerealisasi))
+                    {
+                        dtModel.KeteranganPeserta = "Sama Dengan Target";
+
+                    }
+                    else 
+                    {
+                        dtModel.KeteranganPeserta = "Target Tidak Tercapai";
+
+                    }
+                    if (dt1.CreatedDate > dt.TanggalTerealisasi)
+                    {
+                        dtModel.KeteranganWaktu = "Waktu Pelaksanaan Maju";
+                    }
+                    else if (dt1.CreatedDate == dt.TanggalTerealisasi)
+                    {
+                        dtModel.KeteranganWaktu = "Tepat Waktu";
+                    }
+                    else
+                    {
+                        dtModel.KeteranganWaktu = "Waktu Pelaksanaan Mundur";
+                    }
+
+
+                    model.Add(dtModel);
+
+                }
+             
+            }
+            else
+            {
+                model = null;
+
+            }
+            ViewBag.Data1 = model;
+            return View("RiwayatLK");
+        }
+
+
+
+
+        public ActionResult ChartIndex()
+        {
+            return View("ChartLK");
+        }
+
+
+            public ActionResult ChartLK()
+        {
+            var cookie = Request.Cookies["LoginHelpDesk"].Value.ToString();
+            string ModelNama = "";
+            if (cookie.Contains("&"))
+            {
+                var x = cookie.Substring(cookie.IndexOf('&') + 1).Split('=');
+                ModelNama = x[1];
+            }
+            else // ada kemungkinan tanpa "&"
+            {
+                var x = cookie.Split('=');
+                ModelNama = x[1];
+            }
+            List<ChartModelLK> model = new List<ChartModelLK>();
+            var data = ProgramKerja.GetByNamaLK(ModelNama).ToList();
+            var NamaProker = new List<string>();
+            var Peserta = new List<int>();
+            var PesertaTerealisasi = new List<int>();
+
+            foreach (var item in data)
+            {
+                ChartModelLK dtModel = new ChartModelLK();
+                var dt = PertanggungJawaban.GetByProkerID(item.ProkerID);
+                if (dt.PesertaTerealisasi != null)
+                {
+                    dtModel.NamaProker = item.NamaProker;
+                    dtModel.TargetPeserta = int.Parse(item.TargetJumlahPeserta);
+                    dtModel.PesertaTerealisasi = int.Parse(dt.PesertaTerealisasi);
+
+                    model.Add(dtModel);
+                }
+
+
+            }
+            var data1 = model;
+
+
+            foreach (var item1 in data1)
+            {
+                NamaProker.Add(item1.NamaProker);
+                Peserta.Add(item1.TargetPeserta);
+                PesertaTerealisasi.Add(item1.PesertaTerealisasi);
+            }
+
+            var myChart = new Chart(width: 600, height: 400, theme: ChartTheme.Vanilla)
+          .AddTitle("Perbandingan Peserta").AddLegend("Details")
+        .AddSeries(
+        name: "Target Peserta",
+        xValue: NamaProker,
+        yValues: Peserta
+       )
+        .AddSeries(
+        name: "Peserta Terealisasi",
+        xValue: NamaProker,
+        yValues: PesertaTerealisasi)
+        .Write();
+
+            return File(myChart.ToWebImage().GetBytes(),"image/jpeg");
+        }
+
+        public ActionResult ChartLKDana()
+        {
+            var cookie = Request.Cookies["LoginHelpDesk"].Value.ToString();
+            string ModelNama = "";
+            if (cookie.Contains("&"))
+            {
+                var x = cookie.Substring(cookie.IndexOf('&') + 1).Split('=');
+                ModelNama = x[1];
+            }
+            else // ada kemungkinan tanpa "&"
+            {
+                var x = cookie.Split('=');
+                ModelNama = x[1];
+            }
+            List<ChartModelLK> model = new List<ChartModelLK>();
+            var data = ProgramKerja.GetByNamaLK(ModelNama).ToList();
+            var NamaProker = new List<string>();
+            var DanaPemasukan = new List<int>();
+            var DanaPengeluaran = new List<int>();
+
+            foreach (var item in data)
+            {
+                ChartModelLK dtModel = new ChartModelLK();
+                var dt = PertanggungJawaban.GetByProkerID(item.ProkerID);
+                if (dt.PesertaTerealisasi != null)
+                {
+                    dtModel.DanaPemasukan = int.Parse(dt.DanaPemasukan);
+                    dtModel.DanaPengeluaran = int.Parse(dt.DanaPengeluaran);
+                    dtModel.NamaProker = item.NamaProker;
+
+
+                    model.Add(dtModel);
+                }
+
+
+            }
+            var data1 = model;
+
+
+            foreach (var item1 in data1)
+            {
+                NamaProker.Add(item1.NamaProker);
+                DanaPemasukan.Add(item1.DanaPemasukan);
+                DanaPengeluaran.Add(item1.DanaPengeluaran);
+            }
+
+            var myChart = new Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+          .AddTitle("Perbandingan Pengeluaran & Pemasukan").AddLegend("Details")
+        .AddSeries(
+        name: "Dana Pemasukan",
+        xValue: NamaProker,
+        yValues: DanaPemasukan
+       )
+        .AddSeries(
+        name: "Dana Pengeluaran",
+        xValue: NamaProker,
+        yValues: DanaPengeluaran)
+        .Write();
+
+            return File(myChart.ToWebImage().GetBytes(), "image/jpeg");
         }
 
 

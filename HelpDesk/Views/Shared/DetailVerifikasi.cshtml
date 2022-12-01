@@ -2,7 +2,16 @@
 
 @{ //untuk nyimpan cookie disini
     var data = ViewBag.Data;
-    var dataProker = ViewBag.DataProker;}
+    var dataProker = ViewBag.DataProker;
+
+    var Modal = ViewBag.Modal;
+    var Presentase = ViewBag.Presentase;
+    var Total = ViewBag.Total;
+
+
+    }
+
+
 
 <html>
 <head>
@@ -110,6 +119,35 @@
                     <input id="one" type="text" id="Nama" name="DanaPersetujuan" required>
                 </div>
             </div>
+
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">Detail Pengeluaran</label>
+                </div>
+                <div class="col-75">
+                    <table class="table table-hover mb-0" id="myTable" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Dana Yang Diajukan</th>
+                                <th>Total Pengeluaran</th>
+                                <th>Presentase Pengeluaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@Modal</td>
+                                <td>@Total</td>
+                                <td>@Presentase%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+
             <div class="row">
                 <div class="col-25">
                     <label for="fname">Lampiran Dokumen</label>

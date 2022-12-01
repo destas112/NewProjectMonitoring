@@ -2,6 +2,9 @@
 
 @{ //untuk nyimpan cookie disini
     var data = ViewBag.Data;
+    var Modal = ViewBag.Modal;
+    var Presentase = ViewBag.Presentase;
+    var Total = ViewBag.Total;
   }
 
 <html>
@@ -136,6 +139,58 @@
                     <input type="date" name="TanggalAkhirTerealisasi" required />
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="lname">Detail Pengeluaran</label>
+                </div>
+                <div class="col-75">
+                    @*<table>
+            <thead>
+                <tr>
+                    <th>Administrasi</th>
+                    <th>Akomodasi</th>
+                    <th>Transportasi</th>
+                    <th>Konsumsi</th>
+                    <th>Pembicara</th>
+                    <th>Hadiah</th>
+                    <th>Souvernir</th>
+                    <th>Presentase Pengeluaran</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@data.Administrasi</td>
+                    <td>@data.Akomodasi</td>
+                    <td>@data.Transportasi</td>
+                    <td>@data.Konsumsi</td>
+                    <td>@data.Pembicara</td>
+                    <td>@data.Hadiah</td>
+                    <td>@data.Souvernir</td>
+                    <td>%</td>
+                </tr>
+
+            </tbody>
+        </table>*@
+                    <table class="table table-hover mb-0" id="myTable" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Dana Yang Diajukan</th>
+                                <th>Total Pengeluaran</th>
+                                <th>Presentase Pengeluaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@Modal</td>
+                                <td>@Total</td>
+                                <td>@Presentase%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-25">
                     <label for="img">Upload Berkas:</label>
