@@ -2017,6 +2017,7 @@
     <Content Include="Assets\vendor\jquery\jquery.slim.min.map" />
     <Content Include="Views\Shared\AllTicketUser.cshtml" />
     <Content Include="Views\Shared\ChartLK.cshtml" />
+    <Content Include="Views\Shared\ChartBiro.cshtml" />
     <None Include="Views\Shared\Dasboard.cshtml" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

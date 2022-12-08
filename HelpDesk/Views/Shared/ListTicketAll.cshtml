@@ -1,4 +1,6 @@
-﻿@{
+﻿@using HelpDesk;
+
+@{
     var data = ViewBag.Data;
 }
 <!DOCTYPE html>
@@ -199,8 +201,8 @@
             <tr>
                 <td><a href="https://localhost:44306/Form/GetPengajuanDana?ID=@item.IDPengajuan">@item.IDPengajuan</a></td>
                 <td>@item.NamaProker</td>
-                <td>@item.DanaPengajuan</td>
-                <td><span>@item.DanaPersetujuan</span></td>
+                <td>@HelpDesk.Controllers.FormController.CreateDecimalMoneyFormat(decimal.Parse(item.DanaPengajuan))</td>
+                <td><span>@HelpDesk.Controllers.FormController.CreateDecimalMoneyFormat(decimal.Parse(item.DanaPersetujuan))</span></td>
                 <td><a href="~/File/@Path.GetFileName(@item.File)">@Path.GetFileName(@item.File)</a></td>
                 @if (item.Status == "1")
                 {

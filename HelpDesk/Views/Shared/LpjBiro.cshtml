@@ -1,4 +1,5 @@
-﻿@{ ViewBag.Title = "ListTicket";
+﻿@using HelpDesk;
+@{ ViewBag.Title = "ListTicket";
                 var data = ViewBag.Data; }
 
 <!DOCTYPE html>
@@ -227,8 +228,8 @@
 
                 <td>@item.IDPengajuanDana</td>
                 <td>@item.NamaLK</td>
-                <td><span>@item.DanaPemasukan</span></td>
-                <td><span>@item.DanaPengeluaran</span></td>
+                <td><span>@HelpDesk.Controllers.FormController.CreateDecimalMoneyFormat(decimal.Parse(item.DanaPemasukan))</span></td>
+                <td><span>@HelpDesk.Controllers.FormController.CreateDecimalMoneyFormat(decimal.Parse(item.DanaPengeluaran))</span></td>
                 <td><a href="~/File/@Path.GetFileName(item.FileName)">@Path.GetFileName(item.FileName)</a></td>
 
                 @if (item.StatusKumpulOffline == "1")

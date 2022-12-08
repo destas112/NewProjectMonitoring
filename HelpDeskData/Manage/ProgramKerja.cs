@@ -23,7 +23,7 @@ namespace HelpDeskData
         }
         public void Delete(string by)
         {
-            ExtentionTransaction.Updated(this);
+            ExtentionTransaction.Updated(this); 
         }
         public static IQueryable<ProgramKerja> GetByAll()
         {

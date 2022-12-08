@@ -44,6 +44,11 @@ namespace HelpDeskData
             return CurrentDataContext.CurrentContext.Users.Where(x => !x.IsDelete);
         }
 
+        public static IQueryable<User> GetByRoleAll()
+        {
+            return CurrentDataContext.CurrentContext.Users.Where(x => x.Role == 2 || x.Role == 3 && !x.IsDelete);
+        }
+
 
     }
    

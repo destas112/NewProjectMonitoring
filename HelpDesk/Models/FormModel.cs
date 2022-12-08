@@ -157,10 +157,16 @@ namespace HelpDesk.Models
     {
         public string IDProker { get; set; }
         public string NamaProker { get; set; }
+        public string NamaLK { get; set; }
         public int DanaPemasukan { get; set; }
         public int DanaPengeluaran { get; set; }
         public int PesertaTerealisasi { get; set; }
         public int TargetPeserta { get; set; }
+
+        public int JumlahProker { get; set; }
+        public int ProkerTercapai { get; set; }
+
+        public int JumlahKeterlambatan { get; set; }
     }
 
 

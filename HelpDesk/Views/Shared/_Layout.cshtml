@@ -81,20 +81,21 @@
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Tambah Proker</span>
             </a>
-        </li> }@*<li class="nav-item active">
-                    <a class="nav-link" href="https://localhost:44306/Form/SearchTicket">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Search Ticket</span>
-                    </a>
-                </li> @if (Role == "1") //User
-                                {
-                <li class="nav-item active">
-                    <a class="nav-link" href="https://localhost:44306/Form/AllTicketUser?nama=@pic">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Daftar Pengajuan Dana LK</span>
+        </li>
+ }@*<li class="nav-item active">
+        <a class="nav-link" href="https://localhost:44306/Form/SearchTicket">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Search Ticket</span>
+        </a>
+    </li> @if (Role == "1") //User
+                    {
+    <li class="nav-item active">
+        <a class="nav-link" href="https://localhost:44306/Form/AllTicketUser?nama=@pic">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Daftar Pengajuan Dana LK</span>
 
-                    </a>
-                </li>}*@
+        </a>
+    </li>}*@
 
             @if (Role == "2" || Role == "3") //staff
             {
@@ -116,25 +117,27 @@
                                                 <i class="fas fa-fw fa-tachometer-alt"></i>
                                                 <span>Grafis Proker </span>
                                             </a>
-                                        </li> if (Role == "2") //staff
-                                                        {
-
-
-                                        <li class="nav-item active">
-                                            <a class="nav-link" href="https://localhost:44306/Form/DaftarVerifikasiPengajuan">
-                                                <i class="fas fa-fw fa-tachometer-alt"></i>
-                                                <span>Verifikasi Pengajuan Dana </span>
-                                            </a>
                                         </li>
+ if (Role == "2") //staff
+                                        {
 
 
-                                                            <li class="nav-item active">
-                                                                <a class="nav-link" href="https://localhost:44306/Form/DaftarVerifikasiLPJ">
-                                                                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                                                                    <span>Verifikasi Laporan Pertanggung Jawaban </span>
-                                                                </a>
-                                                            </li>}
-                                                                        }
+                        <li class="nav-item active">
+                            <a class="nav-link" href="https://localhost:44306/Form/DaftarVerifikasiPengajuan">
+                                <i class="fas fa-fw fa-tachometer-alt"></i>
+                                <span>Verifikasi Pengajuan Dana </span>
+                            </a>
+                        </li>
+
+
+                                            <li class="nav-item active">
+                                                <a class="nav-link" href="https://localhost:44306/Form/DaftarVerifikasiLPJ">
+                                                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                                                    <span>Verifikasi Laporan Pertanggung Jawaban </span>
+                                                </a>
+                                            </li>
+}
+                                    }
             @if (Role == "1") //Admin
             {
         <li class="nav-item active">
@@ -162,12 +165,18 @@
                                                                 <span>Riwayat</span>
                                                             </a>
                                                         </li>
-                                                        @*<li class="nav-item active">
-                                                        <a class="nav-link" href="https://localhost:44306/Form/OpenExportReport">
-                                                            <i class="fas fa-fw fa-tachometer-alt"></i>
-                                                            <span>Export Report</span>
-                                                        </a>
-                                                    </li>*@}
+
+                                                                        <li class="nav-item active">
+                                                                            <a class="nav-link" href="https://localhost:44306/Form/ChartBiro">
+                                                                                <i class="fas fa-fw fa-tachometer-alt"></i>
+                                                                                <span>Grafis Summary</span>
+                                                                            </a>
+                                                                        </li> @*<li class="nav-item active">
+                                                                                        <a class="nav-link" href="https://localhost:44306/Form/OpenExportReport">
+                                                                                            <i class="fas fa-fw fa-tachometer-alt"></i>
+                                                                                            <span>Export Report</span>
+                                                                                        </a>
+                                                                                    </li>*@}
             <hr class="sidebar-divider d-none d-md-block">
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">

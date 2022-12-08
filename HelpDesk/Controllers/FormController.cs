@@ -12,6 +12,7 @@ using System.Web.Helpers;
 using System.IO;
 using System.Text;
 using OfficeOpenXml.Style;
+using System.Globalization;
 
 namespace HelpDesk.Controllers
 {
@@ -111,8 +112,8 @@ namespace HelpDesk.Controllers
           
 
             ViewBag.Data = model;
-            ViewBag.Modal = Modal;
-            ViewBag.Total = totalPengeluaran;
+            ViewBag.Modal = CreateDecimalMoneyFormat(decimal.Parse(Modal.ToString()));
+            ViewBag.Total = CreateDecimalMoneyFormat(decimal.Parse(totalPengeluaran.ToString()));
             ViewBag.Presentase = Presentase;
 
             return View("FormPengajuan");
@@ -244,8 +245,8 @@ namespace HelpDesk.Controllers
                 dt.Proker = item.NamaProker;
                 dt.Email = item.Email;
                 dt.Kategori = item.NamaProker;
-                dt.DanaPengajuan = item.DanaPengajuan;
-                dt.DanaPersetujuan = item.DanaPersetujuan;
+                dt.DanaPengajuan =  CreateDecimalMoneyFormat(decimal.Parse(item.DanaPengajuan));
+                dt.DanaPersetujuan = string.IsNullOrEmpty(item.DanaPersetujuan)? "" : CreateDecimalMoneyFormat(decimal.Parse(item.DanaPersetujuan));
                 dt.Status = item.Status;
                 dt.StatusPengajuan = item.IsPengajuan.ToString();
 
@@ -291,8 +292,8 @@ namespace HelpDesk.Controllers
                 model.Deadline = dtPengajuan.TanggalPengajuan.GetValueOrDefault().AddDays(30).ToString("MM/dd/yyyy");
                 model.TanggalPengumpulan = dt.TanggalPengumpulan.GetValueOrDefault().ToString("MM/dd/yyyy");
                 model.TanggalPengajuanDana = dtPengajuan.TanggalPengajuan.GetValueOrDefault().ToString("MM/dd/yyyy");
-                model.DanaPengajuan = dtPengajuan.DanaPengajuan;
-                model.DanaPersetujuan = dtPengajuan.DanaPersetujuan;
+                model.DanaPengajuan =CreateDecimalMoneyFormat(decimal.Parse(dtPengajuan.DanaPengajuan));
+                model.DanaPersetujuan = CreateDecimalMoneyFormat(decimal.Parse(dtPengajuan.DanaPersetujuan));
                 model.Keterangan = string.IsNullOrEmpty(dt.Keterangan) ?"" : dt.Keterangan;
                 model.IsDeadline =  DateTime.Now > taggalDeadline ? "1" : "";
                 Result.Add(model);
@@ -560,7 +561,10 @@ namespace HelpDesk.Controllers
         }
 
 
-
+        public ActionResult ChartBiro()
+        {
+            return View("ChartBiro");
+        }
 
         public ActionResult ChartIndex()
         {
@@ -629,6 +633,8 @@ namespace HelpDesk.Controllers
             return File(myChart.ToWebImage().GetBytes(),"image/jpeg");
         }
 
+
+
         public ActionResult ChartLKDana()
         {
             var cookie = Request.Cookies["LoginHelpDesk"].Value.ToString();
@@ -686,6 +692,283 @@ namespace HelpDesk.Controllers
         name: "Dana Pengeluaran",
         xValue: NamaProker,
         yValues: DanaPengeluaran)
+        .Write();
+
+            return File(myChart.ToWebImage().GetBytes(), "image/jpeg");
+        }
+
+        public ActionResult ChartLKDanaBiro()
+        {
+
+            List<ChartModelLK> model = new List<ChartModelLK>();
+            var dataUser = HelpDeskData.User.GetByRoleAll().ToList();
+            var NamaLK = new List<string>();
+            var DanaPemasukan = new List<int>();
+            var DanaPengeluaran = new List<int>();
+
+            foreach (var item in dataUser)
+            {
+                string query = "Select * from \"ProgramKerja\" Where \"NamaLK\" = '" + item.Nama + "'";
+                var data = HelpDeskData.ExtentionTransaction.ExecuteQuerys<ProgramKerja>(query);
+                // var data = ProgramKerja.GetByAll()/*.Where(x => x.NamaLK == item.Nama).ToList()*/;
+                var a = data.ToList();
+                int totalPemasukan = 0;
+                int totalPengeluaran = 0;
+                ChartModelLK dtModel = new ChartModelLK();
+                foreach (var item1 in a)
+                {
+                    if (item1.NamaLK == item.Nama)
+                    {
+                        var dt = PertanggungJawaban.GetByProkerIDToChart(item1.ProkerID).First();
+
+                        //string query1 = "Select * from \"PertanggungJawaban\" Where \"IDProker\" = '" + item1.ProkerID + "'";
+                        //var dt = HelpDeskData.ExtentionTransaction.ExecuteQuerys<PertanggungJawaban>(query1);
+
+                        if (dt.PesertaTerealisasi != null)
+                        {
+                            totalPemasukan = totalPemasukan + int.Parse(dt.DanaPemasukan);
+                            totalPengeluaran = totalPengeluaran + int.Parse(dt.DanaPengeluaran);
+                            dtModel.DanaPemasukan =  totalPemasukan;
+                            dtModel.DanaPengeluaran = totalPengeluaran;
+                            ////dtModel.NamaProker = item1.NamaProker;
+                            dtModel.NamaLK = item.Nama;
+
+
+                            model.Add(dtModel);
+                        }
+                    }
+                }
+            }
+            var data1 = model;
+
+            foreach (var item1 in data1)
+            {
+                if (!NamaLK.Contains(item1.NamaLK))
+                {
+                    NamaLK.Add(item1.NamaLK);
+                    DanaPemasukan.Add(item1.DanaPemasukan);
+                    DanaPengeluaran.Add(item1.DanaPengeluaran);
+                }
+            }
+
+            var myChart = new Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+          .AddTitle("Perbandingan Pengeluaran & Pemasukan").AddLegend("Details")
+        .AddSeries(
+        name: "Dana Pemasukan",
+        xValue: NamaLK,
+        yValues: DanaPemasukan
+       )
+        .AddSeries(
+        name: "Dana Pengeluaran",
+        xValue: NamaLK,
+        yValues: DanaPengeluaran)
+        .Write();
+
+            return File(myChart.ToWebImage().GetBytes(), "image/jpeg");
+        }
+
+
+        public ActionResult LineChartBiro()
+        {
+
+            List<ChartModelLK> model = new List<ChartModelLK>();
+            var dataUser = HelpDeskData.User.GetByRoleAll().ToList();
+            var NamaLK = new List<string>();
+            var Keterlamabatan = new List<int>();
+
+            foreach (var item in dataUser)
+            {
+                string query = "Select * from \"ProgramKerja\" Where \"NamaLK\" = '" + item.Nama + "'";
+                var data = HelpDeskData.ExtentionTransaction.ExecuteQuerys<ProgramKerja>(query);
+                // var data = ProgramKerja.GetByAll()/*.Where(x => x.NamaLK == item.Nama).ToList()*/;
+                var a = data.ToList();
+                int totalKeterlambatan = 0;
+                ChartModelLK dtModel = new ChartModelLK();
+                foreach (var item1 in a)
+                {
+                    if (item1.NamaLK == item.Nama)
+                    {
+                        var dt = PertanggungJawaban.GetByProkerIDToChart(item1.ProkerID).ToList().First();
+                        var dtPengajuan = PengajuanDana.GetByProkerID(item1.ProkerID);
+
+                        //string query1 = "Select * from \"PertanggungJawaban\" Where \"IDProker\" = '" + item1.ProkerID + "'";
+                        //var dt = HelpDeskData.ExtentionTransaction.ExecuteQuerys<PertanggungJawaban>(query1);
+
+                        if (dt.PesertaTerealisasi != null)
+                        {
+                            DateTime taggalDeadline = dtPengajuan.TanggalPengajuan.GetValueOrDefault().AddDays(30);
+                            if (DateTime.Now > taggalDeadline)
+                            {
+                                totalKeterlambatan = totalKeterlambatan + 1;
+                            }
+                            dtModel.JumlahKeterlambatan = totalKeterlambatan;
+                            dtModel.NamaLK = item.Nama;
+
+
+                            model.Add(dtModel);
+                        }
+                    }
+                }
+            }
+            var data1 = model;
+
+            foreach (var item1 in data1)
+            {
+                if (!NamaLK.Contains(item1.NamaLK))
+                {
+                    NamaLK.Add(item1.NamaLK);
+                    Keterlamabatan.Add(item1.JumlahKeterlambatan);
+                }
+            }
+
+            var myChart = new Chart(width: 600, height: 400,theme: ChartTheme.Blue)
+          .AddTitle("Tingkat Keterlambatan LK").AddLegend("Details")
+        .AddSeries(
+        chartType: "line",
+        name: "Keterlambatan",
+        xValue: NamaLK,
+        yValues: Keterlamabatan
+       );
+
+            return File(myChart.ToWebImage().GetBytes(), "image/jpeg");
+        }
+
+        public ActionResult PieChartLKDanaBiro()
+        {
+
+            List<ChartModelLK> model = new List<ChartModelLK>();
+            var dataUser = HelpDeskData.User.GetByRoleAll().ToList();
+            var NamaLK = new List<string>();
+            var DanaPemasukan = new List<int>();
+            var DanaPengeluaran = new List<int>();
+
+            foreach (var item in dataUser)
+            {
+                string query = "Select * from \"ProgramKerja\" Where \"NamaLK\" = '" + item.Nama + "'";
+                var data = HelpDeskData.ExtentionTransaction.ExecuteQuerys<ProgramKerja>(query);
+                // var data = ProgramKerja.GetByAll()/*.Where(x => x.NamaLK == item.Nama).ToList()*/;
+                var a = data.ToList();
+                int totalPemasukan = 0;
+                int totalPengeluaran = 0;
+                ChartModelLK dtModel = new ChartModelLK();
+                foreach (var item1 in a)
+                {
+                    if (item1.NamaLK == item.Nama)
+                    {
+                        var dt = PertanggungJawaban.GetByProkerIDToChart(item1.ProkerID).First();
+
+                        //string query1 = "Select * from \"PertanggungJawaban\" Where \"IDProker\" = '" + item1.ProkerID + "'";
+                        //var dt = HelpDeskData.ExtentionTransaction.ExecuteQuerys<PertanggungJawaban>(query1);
+
+                        if (dt.PesertaTerealisasi != null)
+                        {
+                            totalPemasukan = totalPemasukan + int.Parse(dt.DanaPemasukan);
+                            totalPengeluaran = totalPengeluaran + int.Parse(dt.DanaPengeluaran);
+                            dtModel.DanaPemasukan = totalPemasukan;
+                            dtModel.DanaPengeluaran = totalPengeluaran;
+                            ////dtModel.NamaProker = item1.NamaProker;
+                            dtModel.NamaLK = item.Nama;
+
+
+                            model.Add(dtModel);
+                        }
+                    }
+                }
+            }
+            var data1 = model;
+
+            foreach (var item1 in data1)
+            {
+                if (!NamaLK.Contains(item1.NamaLK))
+                {
+                    NamaLK.Add(item1.NamaLK);
+                    DanaPemasukan.Add(item1.DanaPemasukan);
+                    DanaPengeluaran.Add(item1.DanaPengeluaran);
+                }
+            }
+
+            var myChart = new Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+          .AddTitle("Tingkat Konsumsi Dana").AddLegend("Details")
+        .AddSeries(
+
+        chartType: "pie",
+        name: "Konsumsi Dana",
+        xValue: NamaLK,
+        yValues: DanaPemasukan
+       );
+
+            return File(myChart.ToWebImage().GetBytes(), "image/jpeg");
+        }
+
+        public ActionResult ChartProkerBiro()
+        {
+
+            List<ChartModelLK> model = new List<ChartModelLK>();
+            var dataUser = HelpDeskData.User.GetByRoleAll().ToList();
+            var NamaLK = new List<string>();
+            var JumlahProker = new List<int>();
+            var PokerTercapai = new List<int>();
+
+            foreach (var item in dataUser)
+            {
+                string query = "Select * from \"ProgramKerja\" Where \"NamaLK\" = '" + item.Nama + "'";
+                var data = HelpDeskData.ExtentionTransaction.ExecuteQuerys<ProgramKerja>(query);
+                // var data = ProgramKerja.GetByAll()/*.Where(x => x.NamaLK == item.Nama).ToList()*/;
+                var a = data.ToList();
+                int totalproker = 0;
+                int totalprokertercapai = 0;
+                ChartModelLK dtModel = new ChartModelLK();
+                foreach (var item1 in a)
+                {
+                    if (item1.NamaLK == item.Nama)
+                    {
+                        var dt = PertanggungJawaban.GetByProkerIDToChart(item1.ProkerID).ToList().First();
+                        var dtProker= ProgramKerja.GetByID(item1.ProkerID);
+
+                        //string query1 = "Select * from \"PertanggungJawaban\" Where \"IDProker\" = '" + item1.ProkerID + "'";
+                        //var dt = HelpDeskData.ExtentionTransaction.ExecuteQuerys<PertanggungJawaban>(query1);
+
+                        if (dt.PesertaTerealisasi != null)
+                        {
+                            totalproker = totalproker + 1;
+                            if (int.Parse(dtProker.TargetJumlahPeserta) < int.Parse(dt.PesertaTerealisasi) || int.Parse(dtProker.TargetJumlahPeserta) == int.Parse(dt.PesertaTerealisasi))
+                            {
+                                totalprokertercapai = totalprokertercapai + 1;
+                            }
+                            dtModel.JumlahProker = totalproker;
+                            dtModel.ProkerTercapai = totalprokertercapai;
+                            ////dtModel.NamaProker = item1.NamaProker;
+                            dtModel.NamaLK = item.Nama;
+
+
+                            model.Add(dtModel);
+                        }
+                    }
+                }
+            }
+            var data1 = model;
+
+            foreach (var item1 in data1)
+            {
+                if (!NamaLK.Contains(item1.NamaLK))
+                {
+                    NamaLK.Add(item1.NamaLK);
+                    JumlahProker.Add(item1.JumlahProker);
+                    PokerTercapai.Add(item1.ProkerTercapai);
+                }
+            }
+
+            var myChart = new Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+          .AddTitle("Tingkat Keberhasilan Program Kerja").AddLegend("Details")
+        .AddSeries(
+        name: "Jumlah Proker",
+        xValue: NamaLK,
+        yValues: JumlahProker
+       )
+        .AddSeries(
+        name: "Proker Tercapai",
+        xValue: NamaLK,
+        yValues: PokerTercapai)
         .Write();
 
             return File(myChart.ToWebImage().GetBytes(), "image/jpeg");
@@ -1077,6 +1360,14 @@ namespace HelpDesk.Controllers
             int number = random.Next(1,100);
             string build = KodeLK + "22" + number;
             return build;
+        }
+        public static string CreateDecimalMoneyFormat(decimal value)
+        {
+            CultureInfo culture = CultureInfo.CreateSpecificCulture("id-ID");
+            //return value.ToString("00.00", culture);
+            string result = string.Format(culture, "{0:C0}", value);
+            result = result.Replace("Rp", "");
+            return result;
         }
         //[HttpGet]
         //public ActionResult AllTicketUser(string nama)

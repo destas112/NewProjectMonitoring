@@ -52,6 +52,13 @@ namespace HelpDeskData
             return CurrentDataContext.CurrentContext.PertanggungJawabans.Where(x => x.StatusKumpulOffline == "1");
         }
 
+        public static List<PertanggungJawaban> GetByProkerIDToChart(string ID)
+        {
+
+            return CurrentDataContext.CurrentContext.PertanggungJawabans.Where(x => x.IDProker == ID).ToList();
+        }
+
+
 
     }
 }
